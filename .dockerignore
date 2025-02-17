@@ -27,6 +27,3 @@ Dockerfile
 
 docs
 tests
-
-src/pltfm_mgr_rpc/
-thrift/

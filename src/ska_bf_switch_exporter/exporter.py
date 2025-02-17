@@ -3,6 +3,7 @@ This is the main entrypoint of the application.
 """
 
 import logging
+import pathlib
 import signal
 
 import click
@@ -16,6 +17,18 @@ from ska_bf_switch_exporter.platform_manager_collector import (
 
 
 @click.command
+@click.option(
+    "--sde-install-dir",
+    type=click.Path(
+        exists=True,
+        file_okay=False,
+        dir_okay=True,
+        resolve_path=True,
+        path_type=pathlib.Path,
+    ),
+    required=True,
+    help="Path to the Barefoot SDE install directory",
+)
 @click.option(
     "--rpc-host",
     type=str,
@@ -43,6 +56,7 @@ from ska_bf_switch_exporter.platform_manager_collector import (
     help="Logging level used to configure the Python logger",
 )
 def run(
+    sde_install_dir: pathlib.Path,
     rpc_host: str,
     rpc_port: int,
     web_port: int,
@@ -59,6 +73,7 @@ def run(
     PlatformManagerCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
+        sde_install_dir=sde_install_dir,
         registry=registry,
         logger=logger,
     )
@@ -86,4 +101,6 @@ def run(
 
 
 if __name__ == "__main__":
-    run()  # pylint: disable=no-value-for-parameter
+    run(  # pylint: disable=no-value-for-parameter
+        auto_envvar_prefix="BF_SWITCH_EXPORTER",
+    )

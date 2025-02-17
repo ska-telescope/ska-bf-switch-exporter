@@ -3,19 +3,22 @@ Module for the Barefoot platform manager collector.
 """
 
 import contextlib
+import importlib
 import logging
+import pathlib
+import sys
 
 from prometheus_client.core import GaugeMetricFamily
 from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
 from thrift.protocol import TBinaryProtocol, TMultiplexedProtocol
 from thrift.transport import TSocket, TTransport
 
-from pltfm_mgr_rpc import pltfm_mgr_rpc
-
 __all__ = ["PlatformManagerCollector"]
 
 # pylint: disable=too-few-public-methods
+# pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
+# pylint: disable=too-many-positional-arguments
 # pylint: disable=too-many-statements
 
 
@@ -29,12 +32,21 @@ class PlatformManagerCollector(Collector):
         self,
         rpc_host: str,
         rpc_port: int,
+        sde_install_dir: pathlib.Path,
         registry: CollectorRegistry | None = REGISTRY,
         logger: logging.Logger | None = None,
     ):
         self._rpc_host = rpc_host
         self._rpc_port = rpc_port
         self._logger = logger or logging.getLogger(__name__)
+
+        for path in sde_install_dir.rglob("lib/python*/site-packages/"):
+            self._logger.debug("Appending import path %s", path)
+            sys.path.append(str(path))
+
+        self._rpc_module = importlib.import_module(
+            "pltfm_mgr_rpc.pltfm_mgr_rpc"
+        )
 
         if registry:
             registry.register(self)
@@ -181,9 +193,7 @@ class PlatformManagerCollector(Collector):
                     [port_label], client.pltfm_mgr_qsfp_chan_count_get(port)
                 )
 
-                thresholds: pltfm_mgr_rpc.pltfm_mgr_qsfp_thresholds_t = (
-                    client.pltfm_mgr_qsfp_thresholds_get(port)
-                )
+                thresholds = client.pltfm_mgr_qsfp_thresholds_get(port)
 
                 if thresholds.temp_is_set:
                     qsfp_temperature_alarm_max.add_metric(
@@ -298,7 +308,7 @@ class PlatformManagerCollector(Collector):
             transport.open()
 
             self._logger.debug("Creating RPC client")
-            client = pltfm_mgr_rpc.Client(
+            client = self._rpc_module.Client(
                 TMultiplexedProtocol.TMultiplexedProtocol(
                     TBinaryProtocol.TBinaryProtocol(transport),
                     "pltfm_mgr_rpc",

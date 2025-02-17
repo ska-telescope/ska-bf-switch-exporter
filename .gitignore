@@ -25,6 +25,3 @@ docs/src/_build
 .idea
 .eclipse
 .vscode
-
-src/pltfm_mgr_rpc/
-thrift/*.thrift
