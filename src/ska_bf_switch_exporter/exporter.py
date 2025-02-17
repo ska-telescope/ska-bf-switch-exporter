@@ -36,7 +36,9 @@ from ska_bf_switch_exporter.platform_manager_collector import (
 )
 @click.option(
     "--log-level",
-    type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR"], case_sensitive=False),
+    type=click.Choice(
+        ["DEBUG", "INFO", "WARNING", "ERROR"], case_sensitive=False
+    ),
     default="INFO",
     help="Logging level used to configure the Python logger",
 )
