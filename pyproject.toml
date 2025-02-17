@@ -1,0 +1,61 @@
+[tool.poetry]
+name = "ska_bf_switch_exporter"
+version = "0.1.0"
+description = ""
+authors = ["Sander Ploegsma <sander.ploegsma@topic.nl>"]
+license = "BSD-3-Clause"
+readme = "README.md"
+
+[tool.poetry.scripts]
+bf_switch_exporter = "ska_bf_switch_exporter.exporter:run"
+
+[[tool.poetry.source]]
+name = "skao"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "supplemental"
+
+[tool.poetry.dependencies]
+python = "~3.10"
+thrift = "^0.21.0"
+click = "^8.1.8"
+prometheus-client = "^0.21.1"
+ska-ser-logging = "^0.4.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+flake8 = "^7.1.0"
+isort = "^5.13.2"
+pylint = "^3.2.6"
+pylint-junit = "^0.3.4"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.2.6"
+ska-ser-sphinx-theme = "^0.2.1"
+myst-parser = "^4.0.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.2"
+coverage = "^7.6.0"
+pytest-cov = "^5.0.0"
+
+[tool.black]
+line-length = 79
+
+[tool.flake8]
+max-line-length = 79
+exclude = "src/pltfm_mgr_rpc"
+
+[tool.isort]
+profile = "black"
+line_length = 79
+
+[tool.pylint.format]
+max-line-length = 79
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
