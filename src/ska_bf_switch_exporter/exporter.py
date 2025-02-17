@@ -11,8 +11,9 @@ from prometheus_client import start_http_server
 from prometheus_client.core import CollectorRegistry
 from ska_ser_logging import configure_logging
 
-from ska_bf_switch_exporter.platform_manager_collector import (
-    PlatformManagerCollector,
+from ska_bf_switch_exporter.pal_rpc_collector import PalRpcCollector
+from ska_bf_switch_exporter.pltfm_mgr_rpc_collector import (
+    PlatformManagerRpcCollector,
 )
 
 
@@ -74,7 +75,14 @@ def run(
     logger.info("Starting Barefoot Switch exporter")
 
     registry = CollectorRegistry()
-    PlatformManagerCollector(
+    PlatformManagerRpcCollector(
+        rpc_host=rpc_host,
+        rpc_port=rpc_port,
+        sde_install_dir=sde_install_dir,
+        registry=registry,
+        logger=logger,
+    )
+    PalRpcCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
         sde_install_dir=sde_install_dir,

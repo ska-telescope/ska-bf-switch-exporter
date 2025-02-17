@@ -13,7 +13,7 @@ from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
 from thrift.protocol import TBinaryProtocol, TMultiplexedProtocol
 from thrift.transport import TSocket, TTransport
 
-__all__ = ["PlatformManagerCollector"]
+__all__ = ["PlatformManagerRpcCollector"]
 
 # pylint: disable=too-few-public-methods
 # pylint: disable=too-many-arguments
@@ -22,7 +22,7 @@ __all__ = ["PlatformManagerCollector"]
 # pylint: disable=too-many-statements
 
 
-class PlatformManagerCollector(Collector):
+class PlatformManagerRpcCollector(Collector):
     """
     Custom Prometheus collector that collects metrics exposed by the
     Barefoot platform manager RPC.
@@ -49,6 +49,7 @@ class PlatformManagerCollector(Collector):
         )
 
         if registry:
+            self._logger.info("Registering %s", self.__class__.__name__)
             registry.register(self)
 
     def collect(self):
