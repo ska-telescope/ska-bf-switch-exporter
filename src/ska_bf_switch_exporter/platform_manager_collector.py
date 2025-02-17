@@ -52,6 +52,13 @@ class PlatformManagerCollector(Collector):
             registry.register(self)
 
     def collect(self):
+        system_temperature = GaugeMetricFamily(
+            "bf_switch_system_temperature",
+            "Temperature of the system",
+            labels=["id"],
+            unit="degrees",
+        )
+
         qsfp_info = InfoMetricFamily(
             "bf_switch_qsfp",
             "QSFP information",
@@ -179,6 +186,17 @@ class PlatformManagerCollector(Collector):
         )
 
         with self._rpc_client() as client:
+            temperatures = client.pltfm_mgr_sys_tmp_get()
+
+            for i in range(6):
+                label = f"motherboard{i+1}"
+                attr = f"tmp{i+1}"
+                system_temperature.add_metric(
+                    [label], getattr(temperatures, attr)
+                )
+
+            system_temperature.add_metric(["tofino"], temperatures.tmp6)
+
             for port in range(1, client.pltfm_mgr_qsfp_get_max_port()):
                 port_label = str(port)
                 connected = client.pltfm_mgr_qsfp_presence_get(port)
@@ -286,6 +304,7 @@ class PlatformManagerCollector(Collector):
                     )
 
         yield from [
+            system_temperature,
             qsfp_connected,
             qsfp_channel_rx_power,
             qsfp_channel_tx_power,
