@@ -16,7 +16,11 @@ from ska_bf_switch_exporter.platform_manager_collector import (
 )
 
 
-@click.command
+@click.command(
+    context_settings={
+        "auto_envvar_prefix": "BF_SWITCH_EXPORTER",
+    }
+)
 @click.option(
     "--sde-install-dir",
     type=click.Path(
@@ -93,7 +97,7 @@ def run(
 
     shutdown_signals = [signal.SIGINT, signal.SIGTERM]
     for sig in shutdown_signals:
-        logger.debug("Adding shutdown hook for signal %s", sig)
+        logger.debug("Adding shutdown hook for %s", sig)
         signal.signal(sig, shutdown)
 
     logger.info("Exporter is running")
@@ -101,6 +105,4 @@ def run(
 
 
 if __name__ == "__main__":
-    run(  # pylint: disable=no-value-for-parameter
-        auto_envvar_prefix="BF_SWITCH_EXPORTER",
-    )
+    run()  # pylint: disable=no-value-for-parameter
