@@ -8,7 +8,7 @@ import logging
 import pathlib
 import sys
 
-from prometheus_client.core import GaugeMetricFamily
+from prometheus_client.core import GaugeMetricFamily, InfoMetricFamily
 from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
 from thrift.protocol import TBinaryProtocol, TMultiplexedProtocol
 from thrift.transport import TSocket, TTransport
@@ -52,6 +52,11 @@ class PlatformManagerCollector(Collector):
             registry.register(self)
 
     def collect(self):
+        qsfp_info = InfoMetricFamily(
+            "bf_switch_qsfp",
+            "QSFP information",
+            labels=["port"],
+        )
         qsfp_connected = GaugeMetricFamily(
             "bf_switch_qsfp_present",
             "Whether the QSFP port has a connected transceiver",
@@ -183,6 +188,21 @@ class PlatformManagerCollector(Collector):
                 if not connected:
                     continue
 
+                info = client.pltfm_mgr_qsfp_info_get(port)
+                try:
+                    # serial number is encoded in the info starting at byte
+                    # 392 and finished when 0x202020 starts.
+                    i1 = 392
+                    i2 = i1 + info[i1:-1].index("202020")
+                    qsfp_serial = bytes.fromhex(info[i1:i2]).decode()
+                    qsfp_info.add_metric([port_label], {"serial": qsfp_serial})
+                except UnicodeDecodeError:
+                    self._logger.debug(
+                        "Unable to decode QSFP serial number "
+                        "from hex string: %s",
+                        info,
+                    )
+
                 qsfp_temperature.add_metric(
                     [port_label], client.pltfm_mgr_qsfp_temperature_get(port)
                 )
@@ -270,24 +290,25 @@ class PlatformManagerCollector(Collector):
             qsfp_channel_rx_power,
             qsfp_channel_tx_power,
             qsfp_channel_count,
+            qsfp_info,
+            qsfp_rx_power_alarm_max,
+            qsfp_rx_power_alarm_min,
+            qsfp_rx_power_warning_max,
+            qsfp_rx_power_warning_min,
             qsfp_temperature,
             qsfp_temperature_alarm_max,
             qsfp_temperature_alarm_min,
             qsfp_temperature_warning_max,
             qsfp_temperature_warning_min,
+            qsfp_tx_power_alarm_max,
+            qsfp_tx_power_alarm_min,
+            qsfp_tx_power_warning_max,
+            qsfp_tx_power_warning_min,
             qsfp_voltage,
             qsfp_voltage_alarm_max,
             qsfp_voltage_alarm_min,
             qsfp_voltage_warning_max,
             qsfp_voltage_warning_min,
-            qsfp_rx_power_alarm_max,
-            qsfp_rx_power_alarm_min,
-            qsfp_rx_power_warning_max,
-            qsfp_rx_power_warning_min,
-            qsfp_tx_power_alarm_max,
-            qsfp_tx_power_alarm_min,
-            qsfp_tx_power_warning_max,
-            qsfp_tx_power_warning_min,
         ]
 
     @contextlib.contextmanager
