@@ -66,122 +66,138 @@ class PlatformManagerCollector(Collector):
         )
         qsfp_connected = GaugeMetricFamily(
             "bf_switch_qsfp_present",
-            "Whether the QSFP port has a connected transceiver",
+            "Whether a QSFP is connected to the port",
             labels=["port"],
         )
         qsfp_temperature = GaugeMetricFamily(
             "bf_switch_qsfp_temperature",
-            "QSFP port temperature",
+            "Temperature of the QSFP",
             labels=["port"],
             unit="degrees",
         )
         qsfp_temperature_warning_min = GaugeMetricFamily(
             "bf_switch_qsfp_temperature_warning_min",
-            "QSFP port temperature",
+            "Minimum temperature of the QSFP "
+            "below which a warning should be raised",
             labels=["port"],
             unit="degrees",
         )
         qsfp_temperature_warning_max = GaugeMetricFamily(
             "bf_switch_qsfp_temperature_warning_max",
-            "QSFP port temperature",
+            "Maximum temperature of the QSFP "
+            "above which a warning should be raised",
             labels=["port"],
             unit="degrees",
         )
         qsfp_temperature_alarm_min = GaugeMetricFamily(
             "bf_switch_qsfp_temperature_alarm_min",
-            "QSFP port temperature",
+            "Minimum temperature of the QSFP "
+            "below which an alarm should be raised",
             labels=["port"],
             unit="degrees",
         )
         qsfp_temperature_alarm_max = GaugeMetricFamily(
             "bf_switch_qsfp_temperature_alarm_max",
-            "QSFP port temperature",
+            "Maximum temperature of the QSFP "
+            "above which an alarm should be raised",
             labels=["port"],
             unit="degrees",
         )
         qsfp_voltage = GaugeMetricFamily(
             "bf_switch_qsfp_voltage",
-            "QSFP port voltage",
+            "Voltage on the QSFP",
             labels=["port"],
             unit="volts",
         )
         qsfp_voltage_warning_min = GaugeMetricFamily(
             "bf_switch_qsfp_voltage_warning_min",
-            "QSFP port voltage",
+            "Minimum voltage of the QSFP "
+            "below which a warning should be raised",
             labels=["port"],
             unit="volts",
         )
         qsfp_voltage_warning_max = GaugeMetricFamily(
             "bf_switch_qsfp_voltage_warning_max",
-            "QSFP port voltage",
+            "Maximum voltage of the QSFP "
+            "above which a warning should be raised",
             labels=["port"],
             unit="volts",
         )
         qsfp_voltage_alarm_min = GaugeMetricFamily(
             "bf_switch_qsfp_voltage_alarm_min",
-            "QSFP port voltage",
+            "Minimum voltage of the QSFP "
+            "below which an alarm should be raised",
             labels=["port"],
             unit="volts",
         )
         qsfp_voltage_alarm_max = GaugeMetricFamily(
             "bf_switch_qsfp_voltage_alarm_max",
-            "QSFP port voltage",
+            "Maximum voltage of the QSFP "
+            "above which an alarm should be raised",
             labels=["port"],
             unit="volts",
         )
         qsfp_channel_count = GaugeMetricFamily(
             "bf_switch_qsfp_channel_count",
-            "QSFP port channel count",
+            "Number of channels active on the QSFP",
             labels=["port"],
         )
         qsfp_channel_rx_power = GaugeMetricFamily(
             "bf_switch_qsfp_channel_rx_power",
-            "QSFP port channel RX power",
+            "RX power on the QSFP channel",
             labels=["port", "channel"],
         )
         qsfp_channel_tx_power = GaugeMetricFamily(
             "bf_switch_qsfp_channel_tx_power",
-            "QSFP port channel TX power",
+            "TX power on the QSFP channel",
             labels=["port", "channel"],
         )
         qsfp_rx_power_warning_min = GaugeMetricFamily(
             "bf_switch_qsfp_rx_power_warning_min",
-            "QSFP port rx_power",
+            "Minimum RX power on the QSFP channel "
+            "below which a warning should be raised",
             labels=["port"],
         )
         qsfp_rx_power_warning_max = GaugeMetricFamily(
             "bf_switch_qsfp_rx_power_warning_max",
-            "QSFP port rx_power",
+            "Maximum RX power on the QSFP channel "
+            "above which a warning should be raised",
             labels=["port"],
         )
         qsfp_rx_power_alarm_min = GaugeMetricFamily(
             "bf_switch_qsfp_rx_power_alarm_min",
-            "QSFP port rx_power",
+            "Minimum RX power on the QSFP channel "
+            "below which an alarm should be raised",
             labels=["port"],
         )
         qsfp_rx_power_alarm_max = GaugeMetricFamily(
             "bf_switch_qsfp_rx_power_alarm_max",
-            "QSFP port rx_power",
+            "Maximum RX power on the QSFP channel "
+            "above which an alarm should be raised",
             labels=["port"],
         )
         qsfp_tx_power_warning_min = GaugeMetricFamily(
             "bf_switch_qsfp_tx_power_warning_min",
-            "QSFP port tx_power",
+            "Minimum TX power on the QSFP channel "
+            "below which a warning should be raised",
             labels=["port"],
         )
         qsfp_tx_power_warning_max = GaugeMetricFamily(
             "bf_switch_qsfp_tx_power_warning_max",
-            "QSFP port tx_power",
+            "Maximum TX power on the QSFP channel "
+            "above which a warning should be raised",
             labels=["port"],
         )
         qsfp_tx_power_alarm_min = GaugeMetricFamily(
             "bf_switch_qsfp_tx_power_alarm_min",
-            "QSFP port tx_power",
+            "Minimum TX power on the QSFP channel "
+            "below which an alarm should be raised",
             labels=["port"],
         )
         qsfp_tx_power_alarm_max = GaugeMetricFamily(
             "bf_switch_qsfp_tx_power_alarm_max",
-            "QSFP port tx_power",
+            "Maximum TX power on the QSFP channel "
+            "above which an alarm should be raised",
             labels=["port"],
         )
 
