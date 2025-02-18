@@ -22,6 +22,7 @@ include .make/base.mk
 ########################################################################
 
 PYTHON_SRC = src
+PYTHON_SWITCHES_FOR_FLAKE8 ?= --extend-ignore=E203
 
 include .make/python.mk
 
