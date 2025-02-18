@@ -228,6 +228,14 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
     Barefoot platform manager RPC.
     """
 
+    qsfp_info_byte_offsets = {
+        "date_code": (424, 16),
+        "part_number": (336, 32),
+        "revision": (368, 4),
+        "serial": (392, 32),
+        "vendor": (296, 32),
+    }
+
     def __init__(
         self,
         rpc_host: str,
@@ -400,7 +408,7 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
         with self._get_rpc_client() as client:
             temperatures = client.pltfm_mgr_sys_tmp_get()
 
-            for i in range(6):
+            for i in range(5):
                 label = f"motherboard{i+1}"
                 attr = f"tmp{i+1}"
                 system_temperature.add_metric(
@@ -420,12 +428,18 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
 
                 info = client.pltfm_mgr_qsfp_info_get(port)
                 try:
-                    # serial number is encoded in the info starting at byte
-                    # 392 and finished when 0x202020 starts.
-                    i1 = 392
-                    i2 = i1 + info[i1:-1].index("202020")
-                    qsfp_serial = bytes.fromhex(info[i1:i2]).decode()
-                    qsfp_info.add_metric([port_label], {"serial": qsfp_serial})
+                    qsfp_info.add_metric(
+                        [port_label],
+                        {
+                            key: bytes.fromhex(info[offset : offset + length])
+                            .decode()
+                            .strip()
+                            for (
+                                key,
+                                (offset, length),
+                            ) in self.qsfp_info_byte_offsets.items()
+                        },
+                    )
                 except UnicodeDecodeError:
                     self._logger.debug(
                         "Unable to decode QSFP serial number "
