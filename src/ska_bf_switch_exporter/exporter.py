@@ -12,8 +12,9 @@ from prometheus_client import start_http_server
 from prometheus_client.core import CollectorRegistry
 from ska_ser_logging import configure_logging
 
-from ska_bf_switch_exporter.pal_rpc_collector import PalRpcCollector
-from ska_bf_switch_exporter.pltfm_mgr_rpc_collector import (
+from ska_bf_switch_exporter.collectors import (
+    ExporterInfoCollector,
+    PalRpcCollector,
     PlatformManagerRpcCollector,
 )
 
@@ -84,17 +85,21 @@ def run(
         sys.path.append(str(path))
 
     registry = CollectorRegistry()
+    ExporterInfoCollector(
+        logger=logger,
+        registry=registry,
+    )
     PlatformManagerRpcCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
-        registry=registry,
         logger=logger,
+        registry=registry,
     )
     PalRpcCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
-        registry=registry,
         logger=logger,
+        registry=registry,
     )
 
     logger.info("Starting HTTP server on port %d", web_port)
