@@ -5,6 +5,7 @@ This is the main entrypoint of the application.
 import logging
 import pathlib
 import signal
+import sys
 
 import click
 from prometheus_client import start_http_server
@@ -74,18 +75,24 @@ def run(
     logger = logging.getLogger(__name__)
     logger.info("Starting Barefoot Switch exporter")
 
+    for path in sde_install_dir.rglob("lib/python*/site-packages/"):
+        logger.debug("Appending import path %s", path)
+        sys.path.append(str(path))
+
+    for path in sde_install_dir.rglob("lib/python*/site-packages/tofino/"):
+        logger.debug("Appending import path %s", path)
+        sys.path.append(str(path))
+
     registry = CollectorRegistry()
     PlatformManagerRpcCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
-        sde_install_dir=sde_install_dir,
         registry=registry,
         logger=logger,
     )
     PalRpcCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
-        sde_install_dir=sde_install_dir,
         registry=registry,
         logger=logger,
     )

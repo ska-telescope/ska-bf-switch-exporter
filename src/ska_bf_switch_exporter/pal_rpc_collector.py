@@ -2,16 +2,13 @@
 Module for the Barefoot port manager collector.
 """
 
-import contextlib
 import importlib
 import logging
-import pathlib
-import sys
 
 from prometheus_client.core import CounterMetricFamily, GaugeMetricFamily
-from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
-from thrift.protocol import TBinaryProtocol, TMultiplexedProtocol
-from thrift.transport import TSocket, TTransport
+from prometheus_client.registry import REGISTRY, CollectorRegistry
+
+from ska_bf_switch_exporter.rpc_collector import RpcCollectorBase
 
 __all__ = ["PalRpcCollector"]
 
@@ -22,7 +19,7 @@ __all__ = ["PalRpcCollector"]
 # pylint: disable=too-many-statements
 
 
-class PalRpcCollector(Collector):
+class PalRpcCollector(RpcCollectorBase):
     """
     Custom Prometheus collector that collects metrics exposed by the
     Barefoot PAL RPC.
@@ -32,26 +29,19 @@ class PalRpcCollector(Collector):
         self,
         rpc_host: str,
         rpc_port: int,
-        sde_install_dir: pathlib.Path,
+        logger: logging.Logger,
         registry: CollectorRegistry | None = REGISTRY,
-        logger: logging.Logger | None = None,
     ):
-        self._rpc_host = rpc_host
-        self._rpc_port = rpc_port
-        self._logger = logger or logging.getLogger(__name__)
-
-        for path in sde_install_dir.rglob("lib/python*/site-packages/"):
-            self._logger.debug("Appending import path %s", path)
-            sys.path.append(str(path))
-
-        for path in sde_install_dir.rglob("lib/python*/site-packages/tofino/"):
-            self._logger.debug("Appending import path %s", path)
-            sys.path.append(str(path))
-
-        self._rpc_module = importlib.import_module("pal_rpc.pal")
+        super().__init__(
+            rpc_host=rpc_host,
+            rpc_port=rpc_port,
+            rpc_endpoint="pal",
+            rpc_module=importlib.import_module("pal_rpc.pal"),
+            logger=logger,
+        )
 
         if registry:
-            self._logger.info("Registering %s", self.__class__.__name__)
+            logger.info("Registering %s", self.__class__.__name__)
             registry.register(self)
 
     def collect(self):
@@ -91,7 +81,7 @@ class PalRpcCollector(Collector):
             labels=["port"],
         )
 
-        with self._rpc_client() as client:
+        with self._get_rpc_client() as client:
             port = client.pal_port_get_first(0)
             while port:
                 try:
@@ -144,33 +134,3 @@ class PalRpcCollector(Collector):
             port_frames_transmitted_ok,
             port_frames_transmitted_nok,
         ]
-
-    @contextlib.contextmanager
-    def _rpc_client(self):
-        transport = None
-
-        try:
-            self._logger.debug(
-                "Creating RPC transport to %s:%d",
-                self._rpc_host,
-                self._rpc_port,
-            )
-            transport = TSocket.TSocket(self._rpc_host, self._rpc_port)
-            transport.setTimeout(5000)
-            transport = TTransport.TBufferedTransport(transport)
-
-            self._logger.debug("Opening RPC transport")
-            transport.open()
-
-            self._logger.debug("Creating RPC client")
-            client = self._rpc_module.Client(
-                TMultiplexedProtocol.TMultiplexedProtocol(
-                    TBinaryProtocol.TBinaryProtocol(transport),
-                    "pal",
-                )
-            )
-            yield client
-        finally:
-            if transport is not None:
-                self._logger.debug("Disconnecting from RPC")
-                transport.close()
