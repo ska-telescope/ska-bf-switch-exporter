@@ -1,7 +1,7 @@
 # pylint: disable=invalid-name
 # pylint: disable=redefined-builtin
 
-"""Release information for ska_fpga_exporter"""
+"""Release information for ska_xrt_fpga_exporter"""
 
 import importlib.metadata
 
@@ -11,4 +11,4 @@ try:
 except importlib.metadata.PackageNotFoundError:
     version = "unknown"
 version_info = version.split(".")
-description = "Prometheus exporter for SKA FPGAs"
+description = "Prometheus exporter for SKA XRT FPGAs"

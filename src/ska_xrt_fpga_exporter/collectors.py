@@ -21,7 +21,7 @@ from ska_fpga_exporter import release
 
 __all__ = [
     "ExporterInfoCollector",
-    "FpgaXrtCollector",
+    "XrtFpgaCollector",
 ]
 
 
@@ -43,13 +43,13 @@ class ExporterInfoCollector(Collector):
 
     def collect(self):
         yield InfoMetricFamily(
-            "ska_fpga_exporter",
-            "Information about the ska-fpga-exporter",
+            "ska_xrt_fpga_exporter",
+            "Information about the ska-xrt-fpga-exporter",
             value={"version": release.version},
         )
 
 
-class FpgaXrtCollector(Collector):
+class XrtFpgaCollector(Collector):
     """
     Custom Prometheus collector that collects metrics from Xilinx XRT FPGAs.
     """
@@ -73,43 +73,43 @@ class FpgaXrtCollector(Collector):
             registry.register(self)
 
     def collect(self):
-        device_info = InfoMetricFamily(
-            "fpga_xrt_device",
+        info = InfoMetricFamily(
+            "xrt_fpga",
             "Information about the Xilinx XRT FPGA device",
             labels=["bdf"],
         )
-        device_temperature = GaugeMetricFamily(
-            "fpga_xrt_device_temperature",
+        temperature = GaugeMetricFamily(
+            "xrt_fpga_temperature",
             "Temperature of the Xilinx XRT FPGA device",
             labels=["bdf", "location", "description"],
             unit="degrees",
         )
-        device_voltage = GaugeMetricFamily(
-            "fpga_xrt_device_voltage",
+        voltage = GaugeMetricFamily(
+            "xrt_fpga_voltage",
             "Voltage of the Xilinx XRT FPGA device",
             labels=["bdf", "location", "description"],
             unit="volts",
         )
-        device_current = GaugeMetricFamily(
-            "fpga_xrt_device_current",
+        current = GaugeMetricFamily(
+            "xrt_fpga_current",
             "Current of the Xilinx XRT FPGA device",
             labels=["bdf", "location", "description"],
             unit="amps",
         )
-        device_power = GaugeMetricFamily(
-            "fpga_xrt_device_power",
+        power = GaugeMetricFamily(
+            "xrt_fpga_power",
             "Power consumption of the Xilinx XRT FPGA device",
             labels=["bdf"],
             unit="watts",
         )
-        device_max_power = GaugeMetricFamily(
-            "fpga_xrt_device_max_power",
+        max_power = GaugeMetricFamily(
+            "xrt_fpga_max_power",
             "Maximum power consumption of the Xilinx XRT FPGA device",
             labels=["bdf"],
             unit="watts",
         )
-        device_power_warning = GaugeMetricFamily(
-            "fpga_xrt_device_power_warning",
+        power_warning = GaugeMetricFamily(
+            "xrt_fpga_power_warning",
             "Whether the power consumption of the Xilinx XRT FPGA device "
             "is raising a warning",
             labels=["bdf"],
@@ -125,7 +125,7 @@ class FpgaXrtCollector(Collector):
                 device.get_info(self._pyxrt.xrt_info_device.platform)
             )
 
-            device_info.add_metric(
+            info.add_metric(
                 [bdf],
                 {
                     "name": name,
@@ -150,7 +150,7 @@ class FpgaXrtCollector(Collector):
                     )
                     continue
 
-                device_temperature.add_metric(
+                temperature.add_metric(
                     [bdf, reading["location_id"], reading["description"]],
                     float(reading["temp_C"]),
                 )
@@ -158,15 +158,15 @@ class FpgaXrtCollector(Collector):
             electrical_info = json.loads(
                 device.get_info(self._pyxrt.xrt_info_device.electrical)
             )
-            device_power.add_metric(
+            power.add_metric(
                 [bdf],
                 float(electrical_info["power_consumption_watts"]),
             )
-            device_max_power.add_metric(
+            max_power.add_metric(
                 [bdf],
                 float(electrical_info["power_consumption_max_watts"]),
             )
-            device_power_warning.add_metric(
+            power_warning.add_metric(
                 [bdf],
                 float(bool(electrical_info["power_consumption_warning"])),
             )
@@ -176,7 +176,7 @@ class FpgaXrtCollector(Collector):
                 current_reading = reading["current"]
 
                 if voltage_reading["is_present"] == "true":
-                    device_voltage.add_metric(
+                    voltage.add_metric(
                         [bdf, reading["id"], reading["description"]],
                         float(voltage_reading["volts"]),
                     )
@@ -187,7 +187,7 @@ class FpgaXrtCollector(Collector):
                     )
 
                 if current_reading["is_present"] == "true":
-                    device_current.add_metric(
+                    current.add_metric(
                         [bdf, reading["id"], reading["description"]],
                         float(current_reading["amps"]),
                     )
@@ -198,13 +198,13 @@ class FpgaXrtCollector(Collector):
                     )
 
         yield from [
-            device_info,
-            device_temperature,
-            device_current,
-            device_voltage,
-            device_power,
-            device_max_power,
-            device_power_warning,
+            info,
+            temperature,
+            current,
+            voltage,
+            power,
+            max_power,
+            power_warning,
         ]
 
     def _iter_devices(self):

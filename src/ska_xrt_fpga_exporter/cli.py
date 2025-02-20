@@ -11,16 +11,16 @@ from prometheus_client import start_http_server
 from prometheus_client.core import CollectorRegistry
 from ska_ser_logging import configure_logging
 
-from ska_fpga_exporter import release
-from ska_fpga_exporter.collectors import (
+from ska_xrt_fpga_exporter import release
+from ska_xrt_fpga_exporter.collectors import (
     ExporterInfoCollector,
-    FpgaXrtCollector,
+    XrtFpgaCollector,
 )
 
 
 @click.command(
     context_settings={
-        "auto_envvar_prefix": "SKA_FPGA_EXPORTER",
+        "auto_envvar_prefix": "SKA_XRT_FPGA_EXPORTER",
     }
 )
 @click.version_option(release.version)
@@ -56,18 +56,18 @@ def run(
     log_level: str,
 ):
     """
-    Run the SKA FPGA Prometheus Exporter.
+    Run the SKA XRT FPGA Prometheus Exporter.
     """
     configure_logging(level=log_level)
     logger = logging.getLogger(__name__)
-    logger.info("Starting SKA FPGA Prometheus Exporter")
+    logger.info("Starting SKA XRT FPGA Prometheus Exporter")
 
     registry = CollectorRegistry()
     ExporterInfoCollector(
         logger=logger,
         registry=registry,
     )
-    FpgaXrtCollector(
+    XrtFpgaCollector(
         xrt_install_dir=xrt_install_dir,
         logger=logger,
         registry=registry,

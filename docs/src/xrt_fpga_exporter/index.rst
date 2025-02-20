@@ -1,16 +1,16 @@
-*****************
-ska-fpga-exporter
-*****************
+*********************
+ska-xrt-fpga-exporter
+*********************
 
 Usage
 =====
 
 :: 
 
-    $ ska-fpga-exporter --help
-    Usage: ska-fpga-exporter [OPTIONS]
+    $ ska-xrt-fpga-exporter --help
+    Usage: ska-xrt-fpga-exporter [OPTIONS]
 
-    Run the SKA FPGA Prometheus Exporter.
+    Run the SKA XRT FPGA Prometheus Exporter.
 
     Options:
     --version                       Show the version and exit.

@@ -6,13 +6,13 @@ authors = ["Sander Ploegsma <sander.ploegsma@topic.nl>"]
 license = "BSD-3-Clause"
 readme = "README.md"
 packages = [
-    { include = "ska_fpga_exporter", from = "src" },
+    { include = "ska_xrt_fpga_exporter", from = "src" },
     { include = "ska_p4_switch_exporter", from = "src" },
 ]
 
 [tool.poetry.scripts]
-ska-fpga-exporter = "ska_fpga_exporter.cli:run"
 ska-p4-switch-exporter = "ska_p4_switch_exporter.cli:run"
+ska-xrt-fpga-exporter = "ska_xrt_fpga_exporter.cli:run"
 
 [[tool.poetry.source]]
 name = "skao"

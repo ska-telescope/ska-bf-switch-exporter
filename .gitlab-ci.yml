@@ -18,7 +18,6 @@ include:
     file:
       - gitlab-ci/includes/docs.gitlab-ci.yml
       - gitlab-ci/includes/finaliser.gitlab-ci.yml
-      - gitlab-ci/includes/oci-image.gitlab-ci.yml
       - gitlab-ci/includes/python.gitlab-ci.yml
       - gitlab-ci/includes/release.gitlab-ci.yml
 

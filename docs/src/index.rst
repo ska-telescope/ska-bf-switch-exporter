@@ -6,8 +6,8 @@ SKA Digital Signal PSI Prometheus Exporters
     :maxdepth: 1
     :caption: Prometheus Exporters
 
-    fpga_exporter/index
     p4_switch_exporter/index
+    xrt_fpga_exporter/index
 
 .. toctree::
     :maxdepth: 1
