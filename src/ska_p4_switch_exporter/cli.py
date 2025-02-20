@@ -12,7 +12,7 @@ from prometheus_client import start_http_server
 from prometheus_client.core import CollectorRegistry
 from ska_ser_logging import configure_logging
 
-from ska_bf_switch_exporter.collectors import (
+from ska_p4_switch_exporter.collectors import (
     ExporterInfoCollector,
     PalRpcCollector,
     PlatformManagerRpcCollector,
@@ -21,7 +21,7 @@ from ska_bf_switch_exporter.collectors import (
 
 @click.command(
     context_settings={
-        "auto_envvar_prefix": "BF_SWITCH_EXPORTER",
+        "auto_envvar_prefix": "SKA_P4_SWITCH_EXPORTER",
     }
 )
 @click.option(
@@ -70,11 +70,11 @@ def run(
     log_level: str,
 ):
     """
-    Run the Barefoot Switch Prometheus exporter.
+    Run the SKA P4 Switch Prometheus Exporter.
     """
     configure_logging(level=log_level)
     logger = logging.getLogger(__name__)
-    logger.info("Starting Barefoot Switch exporter")
+    logger.info("Starting SKA P4 Switch Prometheus Exporter")
 
     for path in sde_install_dir.rglob("lib/python*/site-packages/"):
         logger.debug("Appending import path %s", path)

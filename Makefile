@@ -12,7 +12,7 @@ CI_JOB_ID ?= local
 # BASE
 ########################################################################
 
-PROJECT = ska-bf-switch-exporter
+PROJECT = ska-ds-psi-prometheus-exporters
 DOCS_SPHINXOPTS ?= -W
 
 include .make/base.mk
@@ -25,11 +25,3 @@ PYTHON_SRC = src
 PYTHON_SWITCHES_FOR_FLAKE8 ?= --extend-ignore=E203
 
 include .make/python.mk
-
-########################################################################
-# OCI
-########################################################################
-
-OCI_IMAGES_TO_PUBLISH = ska-bf-switch-exporter
-
-include .make/oci.mk

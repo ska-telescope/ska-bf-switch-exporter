@@ -1,13 +1,18 @@
 [tool.poetry]
-name = "ska_bf_switch_exporter"
+name = "ska-ds-psi-prometheus-exporters"
 version = "0.0.1"
 description = ""
 authors = ["Sander Ploegsma <sander.ploegsma@topic.nl>"]
 license = "BSD-3-Clause"
 readme = "README.md"
+packages = [
+    { include = "ska_fpga_exporter", from = "src" },
+    { include = "ska_p4_switch_exporter", from = "src" },
+]
 
 [tool.poetry.scripts]
-bf_switch_exporter = "ska_bf_switch_exporter.exporter:run"
+ska-fpga-exporter = "ska_fpga_exporter.cli:run"
+ska-p4-switch-exporter = "ska_p4_switch_exporter.cli:run"
 
 [[tool.poetry.source]]
 name = "skao"
@@ -51,6 +56,9 @@ line_length = 79
 
 [tool.pylint.format]
 max-line-length = 79
+
+[tool.pylint.messages_control]
+disable = ["duplicate-code"]
 
 [build-system]
 requires = ["poetry-core"]
