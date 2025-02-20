@@ -10,7 +10,7 @@ import importlib.metadata
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "ska-bf-switch-exporter"
+project = "ska-ds-psi-prometheus-exporters"
 copyright = "2025 TOPIC Team"
 author = "TOPIC Team"
 release = importlib.metadata.version(project)

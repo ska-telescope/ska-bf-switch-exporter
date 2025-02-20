@@ -11,6 +11,7 @@ from prometheus_client import start_http_server
 from prometheus_client.core import CollectorRegistry
 from ska_ser_logging import configure_logging
 
+from ska_fpga_exporter import release
 from ska_fpga_exporter.collectors import (
     ExporterInfoCollector,
     FpgaXrtCollector,
@@ -22,6 +23,7 @@ from ska_fpga_exporter.collectors import (
         "auto_envvar_prefix": "SKA_FPGA_EXPORTER",
     }
 )
+@click.version_option(release.version)
 @click.option(
     "--xrt-install-dir",
     type=click.Path(

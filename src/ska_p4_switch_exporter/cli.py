@@ -12,6 +12,7 @@ from prometheus_client import start_http_server
 from prometheus_client.core import CollectorRegistry
 from ska_ser_logging import configure_logging
 
+from ska_p4_switch_exporter import release
 from ska_p4_switch_exporter.collectors import (
     ExporterInfoCollector,
     PalRpcCollector,
@@ -24,6 +25,7 @@ from ska_p4_switch_exporter.collectors import (
         "auto_envvar_prefix": "SKA_P4_SWITCH_EXPORTER",
     }
 )
+@click.version_option(release.version)
 @click.option(
     "--sde-install-dir",
     type=click.Path(

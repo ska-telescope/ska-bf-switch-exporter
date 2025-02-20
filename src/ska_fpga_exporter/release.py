@@ -7,7 +7,7 @@ import importlib.metadata
 
 name = __package__
 try:
-    version = importlib.metadata.version(__package__)
+    version = importlib.metadata.version("ska-ds-psi-prometheus-exporters")
 except importlib.metadata.PackageNotFoundError:
     version = "unknown"
 version_info = version.split(".")
