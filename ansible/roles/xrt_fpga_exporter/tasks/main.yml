@@ -4,6 +4,9 @@
     path: "{{ xrt_fpga_exporter_install_dir }}"
     state: directory
     mode: "0755"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  become: true
 
 - name: Install ska-ds-psi-prometheus-exporters Python library
   ansible.builtin.pip:
@@ -18,7 +21,7 @@
     dest: "/etc/systemd/system/ska-xrt-fpga-exporter.service"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   become: true
   notify:
     - Restart ska-xrt-fpga-exporter
