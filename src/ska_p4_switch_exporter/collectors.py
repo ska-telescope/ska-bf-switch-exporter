@@ -14,6 +14,7 @@ import contextlib
 import logging
 from types import ModuleType
 
+from pltfm_mgr_rpc import pltfm_mgr_rpc
 from prometheus_client.core import (
     CounterMetricFamily,
     GaugeMetricFamily,
@@ -23,7 +24,6 @@ from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
 from thrift.protocol import TBinaryProtocol, TMultiplexedProtocol
 from thrift.transport import TSocket, TTransport
 from tofino.pal_rpc import pal
-from tofino.pltfm_mgr_rpc import pltfm_mgr_rpc
 
 from ska_p4_switch_exporter import release
 
