@@ -2,18 +2,26 @@
 SKA Digital Signal PSI Prometheus Exporters
 ********************************************************************************
 
-.. toctree::
-    :maxdepth: 1
-    :caption: Prometheus Exporters
-
-    p4_switch_exporter/index
-    xrt_fpga_exporter/index
+This is the documentation for the custom Prometheus exporters used in the SKA Digital Signal PSI.
 
 .. toctree::
-    :maxdepth: 1
-    :caption: Releases
+  :maxdepth: 1
 
-    releases/changelog
+  exporters/index
+
+.. toctree::
+  :maxdepth: 1
+  :caption: Installation
+
+  installation/pip
+  installation/ansible
+
+
+.. toctree::
+  :maxdepth: 1
+  :caption: Releases
+
+  releases/changelog
 
 Indices and tables
 ==================
