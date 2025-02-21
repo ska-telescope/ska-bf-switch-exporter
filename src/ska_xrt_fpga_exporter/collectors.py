@@ -132,7 +132,7 @@ class XrtFpgaCollector(Collector):
             thermal_info = json.loads(
                 device.get_info(pyxrt.xrt_info_device.thermal)
             )
-            for reading in thermal_info:
+            for reading in thermal_info["thermals"]:
                 if reading["is_present"] != "true":
                     self._logger.debug(
                         "Skipping thermal reading (not present): %s",
