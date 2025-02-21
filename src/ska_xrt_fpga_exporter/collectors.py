@@ -204,6 +204,7 @@ class XrtFpgaCollector(Collector):
             try:
                 device = pyxrt.device(i)
                 yield device
+                i += 1
             except RuntimeError:
                 self._logger.debug(
                     "Error while retrieving XRT device %d, "
@@ -211,3 +212,4 @@ class XrtFpgaCollector(Collector):
                     i,
                     exc_info=True,
                 )
+                break
