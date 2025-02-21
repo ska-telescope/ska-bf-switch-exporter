@@ -27,7 +27,7 @@ from ska_p4_switch_exporter.collectors import (
 )
 @click.version_option(release.version)
 @click.option(
-    "--sde-install-dir",
+    "--sde-install-path",
     type=click.Path(
         exists=True,
         file_okay=False,
@@ -65,7 +65,7 @@ from ska_p4_switch_exporter.collectors import (
     help="Logging level used to configure the Python logger",
 )
 def run(
-    sde_install_dir: pathlib.Path,
+    sde_install_path: pathlib.Path,
     rpc_host: str,
     rpc_port: int,
     web_port: int,
@@ -78,11 +78,11 @@ def run(
     logger = logging.getLogger(__name__)
     logger.info("Starting SKA P4 Switch Prometheus Exporter")
 
-    for path in sde_install_dir.rglob("lib/python*/site-packages/"):
-        logger.debug("Appending import path %s", path)
-        sys.path.append(str(path))
-
-    for path in sde_install_dir.rglob("lib/python*/site-packages/tofino/"):
+    python_version = f"python{sys.version_info.major}.{sys.version_info.minor}"
+    for path in [
+        sde_install_path / "lib" / python_version / "site-packages",
+        sde_install_path / "lib" / python_version / "site-packages" / "tofino",
+    ]:
         logger.debug("Appending import path %s", path)
         sys.path.append(str(path))
 

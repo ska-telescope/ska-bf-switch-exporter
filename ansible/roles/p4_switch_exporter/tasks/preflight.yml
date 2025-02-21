@@ -1,0 +1,9 @@
+---
+- name: Check if SDE is installed
+  ansible.builtin.stat:
+    path: "{{ p4_switch_exporter_sde_path }}/install"
+  register: sde_install_path
+
+- name: Fail if SDE is not installed
+  ansible.builtin.assert:
+    that: sde_install_path.stat.exists and sde_install_path.stat.isdir

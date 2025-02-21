@@ -1,0 +1,11 @@
+---
+- name: Restart ska-p4-switch-exporter
+  listen: "restart ska-p4-switch-exporter"
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: ska-p4-switch-exporter
+    state: restarted
+    enabled: true
+  when:
+    - not ansible_check_mode

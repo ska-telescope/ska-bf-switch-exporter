@@ -8,7 +8,7 @@
 
 - name: Ensure installation directory exists
   ansible.builtin.file:
-    path: "{{ xrt_fpga_exporter_install_dir }}"
+    path: "{{ p4_switch_exporter_install_dir }}"
     state: directory
     mode: "0755"
     owner: "{{ ansible_user }}"
@@ -23,26 +23,26 @@
 
 - name: Add custom Pypi index to pip install arguments
   ansible.builtin.set_fact:
-    pip_extra_args: "--extra-index-url {{ xrt_fpga_exporter_pypi_index }}"
-  when: xrt_fpga_exporter_pypi_index
+    pip_extra_args: "--extra-index-url {{ p4_switch_exporter_pypi_index }}"
+  when: p4_switch_exporter_pypi_index
 
 - name: Install ska-ds-psi-prometheus-exporters Python library
   ansible.builtin.pip:
     name: ska-ds-psi-prometheus-exporters
-    version: "{{ xrt_fpga_exporter_version }}"
+    version: "{{ p4_switch_exporter_version }}"
     extra_args: "-i https://artefact.skao.int/repository/pypi-internal/simple {{ pip_extra_args }}"
-    virtualenv: "{{ xrt_fpga_exporter_install_dir }}"
+    virtualenv: "{{ p4_switch_exporter_install_dir }}"
     virtualenv_command: "{{ ansible_python_interpreter }} -m venv"
   notify:
-    - Restart ska-xrt-fpga-exporter
+    - Restart ska-p4-switch-exporter
 
 - name: Create systemd service unit
   ansible.builtin.template:
-    src: ska-xrt-fpga-exporter.service.j2
-    dest: "/etc/systemd/system/ska-xrt-fpga-exporter.service"
+    src: ska-p4-switch-exporter.service.j2
+    dest: "/etc/systemd/system/ska-p4-switch-exporter.service"
     owner: root
     group: root
     mode: "0644"
   become: true
   notify:
-    - Restart ska-xrt-fpga-exporter
+    - Restart ska-p4-switch-exporter
