@@ -5,13 +5,25 @@ ska-p4-switch-exporter
 The ``ska-p4-switch-exporter`` exposes metrics extracted from the LOW-CBF P4 switches.
 It does so by connecting to the Barefoot RPC servers that come with the SDE.
 
+
 Prerequisites
 =============
 
 - The Barefoot SDE needs to be installed and compiled.
 
+
 Usage
 =====
+
+.. code-block:: console
+
+  $ ska-p4-switch-exporter \
+  --sde-lib-path /opt/intel/bf-sde/install/lib/python3.10/ \
+  --rpc-host 192.168.0.1
+
+
+Command-Line Options
+====================
 
 ::
 
@@ -22,7 +34,7 @@ Usage
 
   Options:
     --version                       Show the version and exit.
-    --sde-install-path DIRECTORY    Path to the Barefoot SDE install directory
+    --sde-lib-path DIRECTORY        Path to the Barefoot SDE Python libraries
                                     [required]
     --rpc-host TEXT                 Hostname or IP address of the Barefoot RPC
                                     server  [required]
@@ -32,6 +44,7 @@ Usage
                                     Logging level used to configure the Python
                                     logger
     --help                          Show this message and exit.
+
 
 Example output
 ==============

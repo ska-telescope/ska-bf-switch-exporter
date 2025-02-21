@@ -4,7 +4,9 @@ This is the main entrypoint of the application.
 
 import importlib
 import logging
+import pathlib
 import signal
+import sys
 
 import click
 from prometheus_client import start_http_server
@@ -20,6 +22,18 @@ from ska_p4_switch_exporter import release
     }
 )
 @click.version_option(release.version)
+@click.option(
+    "--sde-lib-path",
+    type=click.Path(
+        exists=True,
+        file_okay=False,
+        dir_okay=True,
+        resolve_path=True,
+        path_type=pathlib.Path,
+    ),
+    required=True,
+    help="Path to the Barefoot SDE Python libraries",
+)
 @click.option(
     "--rpc-host",
     type=str,
@@ -41,13 +55,13 @@ from ska_p4_switch_exporter import release
 @click.option(
     "--log-level",
     type=click.Choice(
-        ["DEBUG", "INFO", "WARNING", "ERROR"],
-        case_sensitive=False,
+        ["DEBUG", "INFO", "WARNING", "ERROR"], case_sensitive=False
     ),
     default="INFO",
     help="Logging level used to configure the Python logger",
 )
 def run(
+    sde_lib_path: pathlib.Path,
     rpc_host: str,
     rpc_port: int,
     web_port: int,
@@ -60,8 +74,15 @@ def run(
     logger = logging.getLogger(__name__)
     logger.info("Starting SKA P4 Switch Prometheus Exporter")
 
+    for path in [
+        sde_lib_path / "site-packages",
+        sde_lib_path / "site-packages" / "tofino",
+    ]:
+        logger.debug("Appending import path %s", path)
+        sys.path.append(str(path))
+
     registry = CollectorRegistry()
-    collectors = importlib.import_module("ska_p4_switch_exporter.collectors")
+    collectors = importlib.import_module("ska_p4_switch_exporters.collectors")
     collectors.ExporterInfoCollector(
         logger=logger,
         registry=registry,

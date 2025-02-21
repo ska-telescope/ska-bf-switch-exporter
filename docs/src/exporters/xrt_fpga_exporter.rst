@@ -5,28 +5,19 @@ ska-xrt-fpga-exporter
 The ``ska-xrt-fpga-exporter`` exposes metrics extracted from the LOW-CBF Alveo U55C FPGAs.
 It does so by utilizing the Python bindings that come with the Xilinx XRT.
 
+
 Prerequisites
 =============
 
 - The Xilinx XRT needs to be installed
 
+
 Usage
 =====
 
-:: 
+.. code-block:: console
 
-  $ ska-xrt-fpga-exporter --help
-  Usage: ska-xrt-fpga-exporter [OPTIONS]
-
-  Run the SKA XRT FPGA Prometheus Exporter.
-
-  Options:
-  --version                       Show the version and exit.
-  --web-port INTEGER              Port number on which to expose metrics
-  --log-level [DEBUG|INFO|WARNING|ERROR]
-                                  Logging level used to configure the Python
-                                  logger
-  --help                          Show this message and exit.
+  $ ska-xrt-fpga-exporter
 
 .. note::
 
@@ -36,4 +27,22 @@ Usage
   .. code-block:: console
 
     $ source /opt/xilinx/xrt/setup.sh
-  
+
+
+Command-line options
+====================
+
+:: 
+
+  $ ska-xrt-fpga-exporter --help
+  Usage: ska-xrt-fpga-exporter [OPTIONS]
+
+    Run the SKA XRT FPGA Prometheus Exporter.
+
+  Options:
+    --version                       Show the version and exit.
+    --web-port INTEGER              Port number on which to expose metrics
+    --log-level [DEBUG|INFO|WARNING|ERROR]
+                                    Logging level used to configure the Python
+                                    logger
+    --help                          Show this message and exit.
