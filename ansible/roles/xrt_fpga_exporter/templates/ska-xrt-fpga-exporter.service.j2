@@ -8,7 +8,7 @@ After=network-online.target
 Type=exec
 User={{ ansible_user }}
 Group={{ ansible_user }}
-ExecStart=/bin/sh -c '. {{ xrt_fpga_exporter_xrt_path }}/setup.sh && {{ xrt_fpga_exporter_install_dir }}/bin/python {{ xrt_fpga_exporter_install_dir }}/bin/ska-xrt-fpga-exporter'
+ExecStart=/bin/bash -c '. {{ xrt_fpga_exporter_xrt_path }}/setup.sh && {{ xrt_fpga_exporter_install_dir }}/bin/python {{ xrt_fpga_exporter_install_dir }}/bin/ska-xrt-fpga-exporter'
 
 {% if xrt_fpga_exporter_log_level %}
 Environment=SKA_XRT_FPGA_EXPORTER_LOG_LEVEL={{ xrt_fpga_exporter_log_level }}
