@@ -1,0 +1,24 @@
+---
+- name: Ensure installation directory exists
+  ansible.builtin.file:
+    path: "{{ xrt_fpga_exporter_install_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Install ska-ds-psi-prometheus-exporters Python library
+  ansible.builtin.pip:
+    name: ska-ds-psi-prometheus-exporters
+    version: "{{ xrt_fpga_exporter_version }}"
+    extra_args: "-i {{ xrt_fpga_exporter_pypi_index }}"
+    virtualenv: "{{ xrt_fpga_exporter_install_dir }}"
+
+- name: Create systemd service unit
+  ansible.builtin.template:
+    src: ska-xrt-fpga-exporter.service.j2
+    dest: "/etc/systemd/system/ska-xrt-fpga-exporter.service"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify:
+    - Restart ska-xrt-fpga-exporter

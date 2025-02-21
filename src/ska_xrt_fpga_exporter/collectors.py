@@ -11,13 +11,11 @@ Prometheus metric collectors.
 import importlib
 import json
 import logging
-import pathlib
-import sys
 
 from prometheus_client.core import GaugeMetricFamily, InfoMetricFamily
 from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
 
-from ska_fpga_exporter import release
+from ska_xrt_fpga_exporter import release
 
 __all__ = [
     "ExporterInfoCollector",
@@ -56,17 +54,18 @@ class XrtFpgaCollector(Collector):
 
     def __init__(
         self,
-        xrt_install_dir: pathlib.Path,
         registry: CollectorRegistry | None = REGISTRY,
         logger: logging.Logger | None = None,
     ):
         self._logger = logger or logging.getLogger(__name__)
 
-        xrt_python_path = xrt_install_dir / "python"
-        self._logger.debug("Appending import path: %s", xrt_python_path)
-        sys.path.append(str(xrt_python_path.resolve()))
-
-        self._pyxrt = importlib.import_module("pyxrt")
+        try:
+            self._pyxrt = importlib.import_module("pyxrt")
+        except ImportError:
+            self._logger.error(
+                "Unable to create XrtFpgaCollector: pyxrt module not found"
+            )
+            raise
 
         if registry:
             self._logger.info("Registering %s", self.__class__.__name__)

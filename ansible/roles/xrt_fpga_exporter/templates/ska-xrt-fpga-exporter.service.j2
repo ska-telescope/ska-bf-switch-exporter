@@ -1,0 +1,43 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=SKA XRT FPGA Prometheus Exporter
+After=network-online.target
+
+[Service]
+Type=simple
+User={{ ansible_user }}
+Group={{ ansible_user }}
+ExecStart=PATH="{{ xrt_fpga_exporter_xrt_path }}/bin:${PATH}" \
+PYTHONPATH="{{ xrt_fpga_exporter_xrt_path }}/python:${PYTHONPATH}" \
+LD_LIBRARY_PATH="{{ xrt_fpga_exporter_xrt_path }}/lib:${LD_LIBRARY_PATH}" \
+{{ xrt_fpga_exporter_install_dir }}/bin/python {{ xrt_fpga_exporter_install_dir }}/bin/ska-xrt-fpga-exporter
+
+{% if xrt_fpga_exporter_log_level %}
+Environment=SKA_XRT_FPGA_EXPORTER_LOG_LEVEL={{ xrt_fpga_exporter_log_level }}
+{% endif %}
+{% if xrt_fpga_exporter_web_port %}
+Environment=SKA_XRT_FPGA_EXPORTER_WEB_PORT={{ xrt_fpga_exporter_web_port }}
+{% endif %}
+
+SyslogIdentifier=ska-xrt-fpga-exporter
+Restart=always
+RestartSec=1
+StartLimitInterval=0
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectControlGroups=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+MemoryDenyWriteExecute=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

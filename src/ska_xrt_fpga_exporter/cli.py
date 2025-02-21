@@ -25,18 +25,6 @@ from ska_xrt_fpga_exporter.collectors import (
 )
 @click.version_option(release.version)
 @click.option(
-    "--xrt-install-dir",
-    type=click.Path(
-        exists=True,
-        file_okay=False,
-        dir_okay=True,
-        resolve_path=True,
-        path_type=pathlib.Path,
-    ),
-    default=pathlib.Path("/opt/xilinx/xrt"),
-    help="Path to the Xilinx XRT install directory",
-)
-@click.option(
     "--web-port",
     type=int,
     default=9101,
@@ -45,13 +33,13 @@ from ska_xrt_fpga_exporter.collectors import (
 @click.option(
     "--log-level",
     type=click.Choice(
-        ["DEBUG", "INFO", "WARNING", "ERROR"], case_sensitive=False
+        ["DEBUG", "INFO", "WARNING", "ERROR"],
+        case_sensitive=False,
     ),
     default="INFO",
     help="Logging level used to configure the Python logger",
 )
 def run(
-    xrt_install_dir: pathlib.Path,
     web_port: int,
     log_level: str,
 ):
@@ -68,7 +56,6 @@ def run(
         registry=registry,
     )
     XrtFpgaCollector(
-        xrt_install_dir=xrt_install_dir,
         logger=logger,
         registry=registry,
     )
