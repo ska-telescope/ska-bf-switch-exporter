@@ -2,6 +2,7 @@
 This is the main entrypoint of the application.
 """
 
+import importlib
 import logging
 import signal
 
@@ -11,10 +12,6 @@ from prometheus_client.core import CollectorRegistry
 from ska_ser_logging import configure_logging
 
 from ska_xrt_fpga_exporter import release
-from ska_xrt_fpga_exporter.collectors import (
-    ExporterInfoCollector,
-    XrtFpgaCollector,
-)
 
 
 @click.command(
@@ -50,11 +47,12 @@ def run(
     logger.info("Starting SKA XRT FPGA Prometheus Exporter")
 
     registry = CollectorRegistry()
-    ExporterInfoCollector(
+    collectors = importlib.import_module("ska_xrt_fpga_exporter.collectors")
+    collectors.ExporterInfoCollector(
         logger=logger,
         registry=registry,
     )
-    XrtFpgaCollector(
+    collectors.XrtFpgaCollector(
         logger=logger,
         registry=registry,
     )

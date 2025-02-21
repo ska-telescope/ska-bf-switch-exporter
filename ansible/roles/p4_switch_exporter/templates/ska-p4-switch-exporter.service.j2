@@ -9,12 +9,10 @@ Type=exec
 User={{ ansible_user }}
 Group={{ ansible_user }}
 ExecStart={{ p4_switch_exporter_install_dir }}/bin/python {{ p4_switch_exporter_install_dir }}/bin/ska-p4-switch-exporter
-Environment=SKA_P4_SWITCH_EXPORTER_SDE_INSTALL_PATH={{ p4_switch_exporter_sde_path }}/install
+Environment=PYTHONPATH={{ p4_switch_exporter_sde_path }}/install/lib/{{ target_python_version }}
+Environment=SKA_P4_SWITCH_EXPORTER_RPC_HOST={{ p4_switch_exporter_rpc_host }}
 {% if p4_switch_exporter_log_level %}
 Environment=SKA_P4_SWITCH_EXPORTER_LOG_LEVEL={{ p4_switch_exporter_log_level }}
-{% endif %}
-{% if p4_switch_exporter_rpc_host %}
-Environment=SKA_P4_SWITCH_EXPORTER_RPC_HOST={{ p4_switch_exporter_rpc_host }}
 {% endif %}
 {% if p4_switch_exporter_rpc_port %}
 Environment=SKA_P4_SWITCH_EXPORTER_RPC_PORT={{ p4_switch_exporter_rpc_port }}

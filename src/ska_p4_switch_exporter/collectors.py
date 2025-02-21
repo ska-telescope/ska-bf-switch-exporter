@@ -1,3 +1,4 @@
+# pylint: disable=import-error
 # pylint: disable=too-few-public-methods
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
@@ -10,7 +11,6 @@ Prometheus metric collectors.
 
 import abc
 import contextlib
-import importlib
 import logging
 from types import ModuleType
 
@@ -22,6 +22,8 @@ from prometheus_client.core import (
 from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
 from thrift.protocol import TBinaryProtocol, TMultiplexedProtocol
 from thrift.transport import TSocket, TTransport
+from tofino.pal_rpc import pal
+from tofino.pltfm_mgr_rpc import pltfm_mgr_rpc
 
 from ska_p4_switch_exporter import release
 
@@ -122,7 +124,7 @@ class PalRpcCollector(_RpcCollectorBase):
             rpc_host=rpc_host,
             rpc_port=rpc_port,
             rpc_endpoint="pal",
-            rpc_module=importlib.import_module("pal_rpc.pal"),
+            rpc_module=pal,
             logger=logger,
         )
 
@@ -247,7 +249,7 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
             rpc_host=rpc_host,
             rpc_port=rpc_port,
             rpc_endpoint="pltfm_mgr_rpc",
-            rpc_module=importlib.import_module("pltfm_mgr_rpc.pltfm_mgr_rpc"),
+            rpc_module=pltfm_mgr_rpc,
             logger=logger,
         )
 

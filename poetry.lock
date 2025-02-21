@@ -1642,24 +1642,6 @@ docs = ["argparse-manpage", "cairosvg", "markdown-include", "mkdocs", "mkdocs-gi
 test = ["enrich (>=1.2.6)", "molecule (>=3.4.0)", "pytest (>=6.2.5)", "pytest-cov (>=2.12.1)", "pytest-plus (>=0.2)", "pytest-xdist (>=2.3.0)"]
 
 [[package]]
-name = "thrift"
-version = "0.21.0"
-description = "Python bindings for the Apache Thrift RPC system"
-optional = false
-python-versions = "*"
-files = [
-    {file = "thrift-0.21.0.tar.gz", hash = "sha256:5e6f7c50f936ebfa23e924229afc95eb219f8c8e5a83202dd4a391244803e402"},
-]
-
-[package.dependencies]
-six = ">=1.7.2"
-
-[package.extras]
-all = ["tornado (>=4.0)", "twisted"]
-tornado = ["tornado (>=4.0)"]
-twisted = ["twisted"]
-
-[[package]]
 name = "tomli"
 version = "2.2.1"
 description = "A lil' TOML parser"
@@ -1793,4 +1775,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.10"
-content-hash = "d765f797ecae2763c680fd10b4bf2390955eabb7cb98ccf2e8cd8558ea4b8c20"
+content-hash = "ab79ea15e27a69e343d0b21745c216f0989749dc5a28a415d0bd4520a4d28228"

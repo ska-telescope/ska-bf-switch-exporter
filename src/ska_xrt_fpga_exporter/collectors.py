@@ -1,3 +1,4 @@
+# pylint: disable=import-error
 # pylint: disable=too-few-public-methods
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
@@ -8,10 +9,10 @@
 Prometheus metric collectors.
 """
 
-import importlib
 import json
 import logging
 
+import pyxrt
 from prometheus_client.core import GaugeMetricFamily, InfoMetricFamily
 from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
 
@@ -58,14 +59,6 @@ class XrtFpgaCollector(Collector):
         logger: logging.Logger | None = None,
     ):
         self._logger = logger or logging.getLogger(__name__)
-
-        try:
-            self._pyxrt = importlib.import_module("pyxrt")
-        except ImportError:
-            self._logger.error(
-                "Unable to create XrtFpgaCollector: pyxrt module not found"
-            )
-            raise
 
         if registry:
             self._logger.info("Registering %s", self.__class__.__name__)
@@ -115,13 +108,11 @@ class XrtFpgaCollector(Collector):
         )
 
         for device in self._iter_devices():
-            bdf = device.get_info(self._pyxrt.xrt_info_device.bdf)
-            name = device.get_info(self._pyxrt.xrt_info_device.name)
-            host_info = json.loads(
-                device.get_info(self._pyxrt.xrt_info_device.host)
-            )
+            bdf = device.get_info(pyxrt.xrt_info_device.bdf)
+            name = device.get_info(pyxrt.xrt_info_device.name)
+            host_info = json.loads(device.get_info(pyxrt.xrt_info_device.host))
             platform_info = json.loads(
-                device.get_info(self._pyxrt.xrt_info_device.platform)
+                device.get_info(pyxrt.xrt_info_device.platform)
             )
 
             info.add_metric(
@@ -139,7 +130,7 @@ class XrtFpgaCollector(Collector):
             )
 
             thermal_info = json.loads(
-                device.get_info(self._pyxrt.xrt_info_device.thermal)
+                device.get_info(pyxrt.xrt_info_device.thermal)
             )
             for reading in thermal_info:
                 if reading["is_present"] != "true":
@@ -155,7 +146,7 @@ class XrtFpgaCollector(Collector):
                 )
 
             electrical_info = json.loads(
-                device.get_info(self._pyxrt.xrt_info_device.electrical)
+                device.get_info(pyxrt.xrt_info_device.electrical)
             )
             power.add_metric(
                 [bdf],
@@ -211,7 +202,7 @@ class XrtFpgaCollector(Collector):
         while True:
             self._logger.debug("Attempting to retrieve XRT device %d", i)
             try:
-                device = self._pyxrt.device(i)
+                device = pyxrt.device(i)
                 yield device
             except RuntimeError:
                 self._logger.debug(

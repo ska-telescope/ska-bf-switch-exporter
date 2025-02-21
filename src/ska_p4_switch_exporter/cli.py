@@ -2,10 +2,9 @@
 This is the main entrypoint of the application.
 """
 
+import importlib
 import logging
-import pathlib
 import signal
-import sys
 
 import click
 from prometheus_client import start_http_server
@@ -13,11 +12,6 @@ from prometheus_client.core import CollectorRegistry
 from ska_ser_logging import configure_logging
 
 from ska_p4_switch_exporter import release
-from ska_p4_switch_exporter.collectors import (
-    ExporterInfoCollector,
-    PalRpcCollector,
-    PlatformManagerRpcCollector,
-)
 
 
 @click.command(
@@ -26,18 +20,6 @@ from ska_p4_switch_exporter.collectors import (
     }
 )
 @click.version_option(release.version)
-@click.option(
-    "--sde-install-path",
-    type=click.Path(
-        exists=True,
-        file_okay=False,
-        dir_okay=True,
-        resolve_path=True,
-        path_type=pathlib.Path,
-    ),
-    required=True,
-    help="Path to the Barefoot SDE install directory",
-)
 @click.option(
     "--rpc-host",
     type=str,
@@ -59,13 +41,13 @@ from ska_p4_switch_exporter.collectors import (
 @click.option(
     "--log-level",
     type=click.Choice(
-        ["DEBUG", "INFO", "WARNING", "ERROR"], case_sensitive=False
+        ["DEBUG", "INFO", "WARNING", "ERROR"],
+        case_sensitive=False,
     ),
     default="INFO",
     help="Logging level used to configure the Python logger",
 )
 def run(
-    sde_install_path: pathlib.Path,
     rpc_host: str,
     rpc_port: int,
     web_port: int,
@@ -78,26 +60,19 @@ def run(
     logger = logging.getLogger(__name__)
     logger.info("Starting SKA P4 Switch Prometheus Exporter")
 
-    python_version = f"python{sys.version_info.major}.{sys.version_info.minor}"
-    for path in [
-        sde_install_path / "lib" / python_version / "site-packages",
-        sde_install_path / "lib" / python_version / "site-packages" / "tofino",
-    ]:
-        logger.debug("Appending import path %s", path)
-        sys.path.append(str(path))
-
     registry = CollectorRegistry()
-    ExporterInfoCollector(
+    collectors = importlib.import_module("ska_p4_switch_exporter.collectors")
+    collectors.ExporterInfoCollector(
         logger=logger,
         registry=registry,
     )
-    PlatformManagerRpcCollector(
+    collectors.PlatformManagerRpcCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
         logger=logger,
         registry=registry,
     )
-    PalRpcCollector(
+    collectors.PalRpcCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
         logger=logger,

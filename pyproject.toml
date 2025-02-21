@@ -25,7 +25,6 @@ priority = "supplemental"
 
 [tool.poetry.dependencies]
 python = "~3.10"
-thrift = "^0.21.0"
 click = "^8.1.8"
 prometheus-client = "^0.21.1"
 ska-ser-logging = "^0.4.3"
