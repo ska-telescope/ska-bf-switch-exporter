@@ -14,13 +14,20 @@
     state: present
   become: true
 
+- name: Add custom Pypi index to pip install arguments
+  ansible.builtin.set_fact:
+    pip_extra_args: "--extra-index-url {{ xrt_fpga_exporter_pypi_index }}"
+  when: xrt_fpga_exporter_pypi_index
+
 - name: Install ska-ds-psi-prometheus-exporters Python library
   ansible.builtin.pip:
     name: ska-ds-psi-prometheus-exporters
     version: "{{ xrt_fpga_exporter_version }}"
-    extra_args: "-i {{ xrt_fpga_exporter_pypi_index }}"
+    extra_args: "-i https://artefact.skao.int/repository/pypi-internal/simple {{ pip_extra_args }}"
     virtualenv: "{{ xrt_fpga_exporter_install_dir }}"
     virtualenv_command: "{{ ansible_python_interpreter }} -m venv"
+  notify:
+    - Restart ska-xrt-fpga-exporter
 
 - name: Create systemd service unit
   ansible.builtin.template:
