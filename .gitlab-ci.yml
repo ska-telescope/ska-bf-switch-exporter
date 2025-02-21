@@ -13,6 +13,21 @@ stages:
   - publish
   - scan
 
+ansible-lint:
+  stage: lint
+  tags:
+    - ${SKA_DEFAULT_RUNNER}
+  before_script:
+    - |
+      if [[ -n $CI_POETRY_VERSION ]] && [[ $(poetry --version) != *$CI_POETRY_VERSION* ]]; then
+        echo "docs-build: Updating poetry to $CI_POETRY_VERSION";
+        pipx uninstall poetry && pipx install poetry==$CI_POETRY_VERSION;
+      fi;
+    - poetry config virtualenvs.create false
+    - time poetry install --only ansible --no-root
+  script:
+    - make ansible-lint
+
 include:
   - project: ska-telescope/templates-repository
     file:
@@ -30,7 +45,6 @@ docs-build:
         echo "docs-build: Updating poetry to $CI_POETRY_VERSION";
         pipx uninstall poetry && pipx install poetry==$CI_POETRY_VERSION;
       fi;
-
     - poetry config virtualenvs.create false
     - time poetry install --only main,docs
 
@@ -41,6 +55,5 @@ pages:
         echo "docs-build: Updating poetry to $CI_POETRY_VERSION";
         pipx uninstall poetry && pipx install poetry==$CI_POETRY_VERSION;
       fi;
-
     - poetry config virtualenvs.create false
     - time poetry install --only main,docs
