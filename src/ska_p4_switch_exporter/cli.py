@@ -41,7 +41,7 @@ from ska_p4_switch_exporter.collectors import (
 @click.option(
     "--rpc-host",
     type=str,
-    default="localhost",
+    required=True,
     help="Hostname or IP address of the Barefoot RPC server",
 )
 @click.option(
