@@ -23,10 +23,11 @@ ansible-lint:
         echo "docs-build: Updating poetry to $CI_POETRY_VERSION";
         pipx uninstall poetry && pipx install poetry==$CI_POETRY_VERSION;
       fi;
-    - poetry config virtualenvs.create false
+    - poetry config virtualenvs.create true
+    - poetry config virtualenvs.in-project true
     - time poetry install --only ansible --no-root
   script:
-    - make ansible-lint
+    - poetry run make ansible-lint
 
 include:
   - project: ska-telescope/templates-repository
