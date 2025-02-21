@@ -3,7 +3,6 @@ This is the main entrypoint of the application.
 """
 
 import logging
-import pathlib
 import signal
 
 import click
