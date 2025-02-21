@@ -82,7 +82,7 @@ def run(
         sys.path.append(str(path))
 
     registry = CollectorRegistry()
-    collectors = importlib.import_module("ska_p4_switch_exporters.collectors")
+    collectors = importlib.import_module("ska_p4_switch_exporter.collectors")
     collectors.ExporterInfoCollector(
         logger=logger,
         registry=registry,
