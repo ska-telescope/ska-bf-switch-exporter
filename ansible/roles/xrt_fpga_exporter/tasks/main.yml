@@ -8,6 +8,12 @@
     group: "{{ ansible_user }}"
   become: true
 
+- name: Ensure Python virtualenv package is installed
+  ansible.builtin.apt:
+    name: "python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}-venv"
+    state: present
+  become: true
+
 - name: Install ska-ds-psi-prometheus-exporters Python library
   ansible.builtin.pip:
     name: ska-ds-psi-prometheus-exporters
