@@ -2,7 +2,6 @@
 This is the main entrypoint of the application.
 """
 
-import importlib
 import logging
 import signal
 
@@ -46,13 +45,22 @@ def run(
     logger = logging.getLogger(__name__)
     logger.info("Starting SKA XRT FPGA Prometheus Exporter")
 
+    # The collectors are imported lazily because they depend on pyxrt which
+    # may not be available. Importing them at the top level would make all
+    # CLI invocations raise an ImportError, which is annoying when you just
+    # want to print help text.
+    # pylint: disable=import-outside-toplevel
+    from ska_xrt_fpga_exporter.collectors import (
+        ExporterInfoCollector,
+        XrtFpgaCollector,
+    )
+
     registry = CollectorRegistry()
-    collectors = importlib.import_module("ska_xrt_fpga_exporter.collectors")
-    collectors.ExporterInfoCollector(
+    ExporterInfoCollector(
         logger=logger,
         registry=registry,
     )
-    collectors.XrtFpgaCollector(
+    XrtFpgaCollector(
         logger=logger,
         registry=registry,
     )

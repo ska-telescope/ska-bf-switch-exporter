@@ -1,0 +1,65 @@
+{
+    "platforms": [
+        {
+            "static_region": {
+                "vbnv": "xilinx_u55c_gen3x16_xdma_base_3",
+                "logic_uuid": "00000000-0000-0000-0000-000000000000",
+                "jtag_idcode": "0x00000000",
+                "fpga_name": ""
+            },
+            "off_chip_board_info": {
+                "ddr_size_bytes": "0",
+                "ddr_count": "0"
+            },
+            "status": {
+                "mig_calibrated": "false",
+                "p2p_status": "disabled"
+            },
+            "controller": {
+                "satellite_controller": {
+                    "version": "7.1.22",
+                    "expected_version": "7.1.22"
+                },
+                "card_mgmt_controller": {
+                    "version": "1.5.25",
+                    "serial_number": "000000000000",
+                    "oem_id": "Xilinx"
+                }
+            },
+            "macs": [
+                {
+                    "address": "00:00:00:00:00:B8"
+                },
+                {
+                    "address": "00:00:00:00:00:B9"
+                },
+                {
+                    "address": "00:00:00:00:00:BA"
+                },
+                {
+                    "address": "00:00:00:00:00:BB"
+                },
+                {
+                    "address": "00:00:00:00:00:BC"
+                },
+                {
+                    "address": "00:00:00:00:00:BD"
+                },
+                {
+                    "address": "00:00:00:00:00:BE"
+                },
+                {
+                    "address": "00:00:00:00:00:BF"
+                }
+            ],
+            "config": {
+                "p2p": {
+                    "bar": "256 MB",
+                    "exp_bar": "32 GB",
+                    "max_bar": "16386 MB",
+                    "rbar": "256 MB"
+                }
+            }
+        }
+    ]
+}

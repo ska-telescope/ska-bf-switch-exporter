@@ -158,7 +158,7 @@ class XrtFpgaCollector(Collector):
             )
             power_warning.add_metric(
                 [bdf],
-                float(bool(electrical_info["power_consumption_warning"])),
+                float(electrical_info["power_consumption_warning"] == "true"),
             )
 
             for reading in electrical_info["power_rails"]:

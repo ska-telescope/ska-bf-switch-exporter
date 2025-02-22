@@ -1,0 +1,11 @@
+{
+    "fans": [
+        {
+            "location_id": "fpga_fan_1",
+            "description": "FPGA Fan 1",
+            "critical_trigger_temp_C": "0",
+            "speed_rpm": "0",
+            "is_present": "false"
+        }
+    ]
+}

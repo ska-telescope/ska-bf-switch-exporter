@@ -1,0 +1,15 @@
+{
+    "vendor": "0x0000",
+    "device": "0x0000",
+    "sub_device": "0x0000",
+    "sub_vendor": "0x0000",
+    "link_speed_gbit_sec": "3",
+    "expected_link_speed_gbit_sec": "3",
+    "express_lane_width_count": "16",
+    "expected_express_lane_width_count": "16",
+    "dma_thread_count": "2",
+    "cpu_affinity": "8-15,24-31",
+    "max_shared_host_mem_aperture_bytes": "0 Byte",
+    "shared_host_mem_size_bytes": "0 Byte",
+    "enabled_host_mem_size_bytes": "0 Byte"
+}
