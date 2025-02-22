@@ -41,10 +41,10 @@ class ExporterInfoCollector(Collector):
 
     def __init__(
         self,
-        logger: logging.Logger,
+        logger: logging.Logger | None = None,
         registry: CollectorRegistry | None = REGISTRY,
     ):
-        self._logger = logger
+        self._logger = logger or logging.getLogger(__name__)
 
         if registry:
             logger.info("Registering %s", self.__class__.__name__)
@@ -117,9 +117,10 @@ class PalRpcCollector(_RpcCollectorBase):
         self,
         rpc_host: str,
         rpc_port: int,
-        logger: logging.Logger,
+        logger: logging.Logger | None = None,
         registry: CollectorRegistry | None = REGISTRY,
     ):
+        logger = logger or logging.getLogger(__name__)
         super().__init__(
             rpc_host=rpc_host,
             rpc_port=rpc_port,
@@ -242,9 +243,10 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
         self,
         rpc_host: str,
         rpc_port: int,
-        logger: logging.Logger,
+        logger: logging.Logger | None = None,
         registry: CollectorRegistry | None = REGISTRY,
     ):
+        logger = logger or logging.getLogger(__name__)
         super().__init__(
             rpc_host=rpc_host,
             rpc_port=rpc_port,
@@ -442,7 +444,7 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
                             ) in self.qsfp_info_byte_offsets.items()
                         },
                     )
-                except UnicodeDecodeError:
+                except (UnicodeDecodeError, ValueError):
                     self._logger.debug(
                         "Unable to decode QSFP serial number "
                         "from hex string: %s",

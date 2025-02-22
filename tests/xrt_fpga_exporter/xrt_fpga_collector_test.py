@@ -3,7 +3,7 @@ Unit tests for the
 :py:class:`ska_xrt_fpga_exporter.collectors.XrtFpgaCollector`.
 
 Note: the expected values in this test match the hard-coded test data
-provided by the mocked pyxrt library.
+provided in ``pyxrt_mock.py``.
 """
 
 import pytest
