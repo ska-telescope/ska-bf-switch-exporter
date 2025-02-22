@@ -2,7 +2,6 @@
 This is the main entrypoint of the application.
 """
 
-import importlib
 import logging
 import pathlib
 import signal
@@ -81,8 +80,14 @@ def run(
         logger.debug("Appending import path %s", path)
         sys.path.append(str(path))
 
+    # The collectors are imported lazily because they depend on pyxrt which
+    # may not be available. Importing them at the top level would make all
+    # CLI invocations raise an ImportError, which is annoying when you just
+    # want to print help text.
+    # pylint: disable=import-outside-toplevel
+    from ska_p4_switch_exporter import collectors
+
     registry = CollectorRegistry()
-    collectors = importlib.import_module("ska_p4_switch_exporter.collectors")
     collectors.ExporterInfoCollector(
         logger=logger,
         registry=registry,
