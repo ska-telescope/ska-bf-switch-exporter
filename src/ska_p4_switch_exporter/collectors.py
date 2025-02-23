@@ -47,7 +47,7 @@ class ExporterInfoCollector(Collector):
         self._logger = logger or logging.getLogger(__name__)
 
         if registry:
-            logger.info("Registering %s", self.__class__.__name__)
+            self._logger.info("Registering %s", self.__class__.__name__)
             registry.register(self)
 
     def collect(self):
