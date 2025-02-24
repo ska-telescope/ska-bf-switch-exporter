@@ -1,0 +1,9 @@
+---
+- name: Check if XRT is installed
+  ansible.builtin.stat:
+    path: "{{ xrt_fpga_exporter_xrt_path }}/setup.sh"
+  register: xrt_setup_file
+
+- name: Fail if XRT is not installed
+  ansible.builtin.assert:
+    that: xrt_setup_file.stat.exists

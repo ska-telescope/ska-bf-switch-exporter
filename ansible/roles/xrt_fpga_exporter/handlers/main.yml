@@ -1,0 +1,11 @@
+---
+- name: Restart ska-xrt-fpga-exporter
+  listen: "restart ska-xrt-fpga-exporter"
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: ska-xrt-fpga-exporter
+    state: restarted
+    enabled: true
+  when:
+    - not ansible_check_mode

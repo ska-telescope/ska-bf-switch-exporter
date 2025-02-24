@@ -1,0 +1,9 @@
+namespace: ska_collections
+name: ds_psi_exporters
+version: 0.0.1
+readme: README.md
+description: Custom Prometheus exporters used in SKA Digital Signal PSI
+license_file: LICENSE
+authors:
+  - Sander Ploegsma <sander.ploegsma@topic.nl>
+repository: https://gitlab.com/ska-telescope/ska-ds-psi-prometheus-exporters

@@ -1,0 +1,12 @@
+---
+p4_switch_exporter_version: 0.0.1
+p4_switch_exporter_install_dir: /opt/skao/ska-p4-switch-exporter
+p4_switch_exporter_sde_path: /opt/intel/bf-sde
+p4_switch_exporter_rpc_host: "{{ ansible_host }}"
+
+p4_switch_exporter_pypi_index:
+
+# Exporter command-line options. An empty value means the CLI uses its own default.
+p4_switch_exporter_log_level:
+p4_switch_exporter_rpc_port:
+p4_switch_exporter_web_port:
