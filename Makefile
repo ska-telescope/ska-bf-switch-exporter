@@ -1,4 +1,3 @@
-
 # Use bash shell with pipefail option enabled so that the return status of a
 # piped command is the value of the last (rightmost) command to exit with a
 # non-zero status. This lets us pipe output into tee but still exit on test

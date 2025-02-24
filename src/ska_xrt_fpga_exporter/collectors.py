@@ -102,8 +102,8 @@ class XrtFpgaCollector(Collector):
         )
         power_warning = GaugeMetricFamily(
             "xrt_fpga_power_warning",
-            "Whether the power consumption of the Xilinx XRT FPGA device "
-            "is raising a warning",
+            "Whether the power consumption of the Xilinx XRT FPGA device"
+            " is raising a warning",
             labels=["bdf"],
         )
 
@@ -207,8 +207,8 @@ class XrtFpgaCollector(Collector):
                 i += 1
             except RuntimeError:
                 self._logger.debug(
-                    "Error while retrieving XRT device %d, "
-                    "assuming no more devices are available",
+                    "Error while retrieving XRT device %d,"
+                    " assuming no more devices are available",
                     i,
                     exc_info=True,
                 )

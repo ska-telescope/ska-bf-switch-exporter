@@ -238,8 +238,8 @@ class PalRpcCollector(_RpcCollectorBase):
                 port = client.pal_port_get_next(0, port)
             except pal.InvalidPalOperation:
                 self._logger.debug(
-                    "Error while processing port %d, "
-                    "assuming no more ports are available",
+                    "Error while processing port %d,"
+                    " assuming no more ports are available",
                     port,
                     exc_info=True,
                 )
@@ -306,29 +306,29 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
         )
         qsfp_temperature_warning_min = GaugeMetricFamily(
             "p4_switch_qsfp_temperature_warning_min",
-            "Minimum temperature of the QSFP "
-            "below which a warning should be raised",
+            "Minimum temperature of the QSFP"
+            " below which a warning should be raised",
             labels=["port"],
             unit="degrees",
         )
         qsfp_temperature_warning_max = GaugeMetricFamily(
             "p4_switch_qsfp_temperature_warning_max",
-            "Maximum temperature of the QSFP "
-            "above which a warning should be raised",
+            "Maximum temperature of the QSFP"
+            " above which a warning should be raised",
             labels=["port"],
             unit="degrees",
         )
         qsfp_temperature_alarm_min = GaugeMetricFamily(
             "p4_switch_qsfp_temperature_alarm_min",
-            "Minimum temperature of the QSFP "
-            "below which an alarm should be raised",
+            "Minimum temperature of the QSFP"
+            " below which an alarm should be raised",
             labels=["port"],
             unit="degrees",
         )
         qsfp_temperature_alarm_max = GaugeMetricFamily(
             "p4_switch_qsfp_temperature_alarm_max",
-            "Maximum temperature of the QSFP "
-            "above which an alarm should be raised",
+            "Maximum temperature of the QSFP"
+            " above which an alarm should be raised",
             labels=["port"],
             unit="degrees",
         )
@@ -340,29 +340,29 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
         )
         qsfp_voltage_warning_min = GaugeMetricFamily(
             "p4_switch_qsfp_voltage_warning_min",
-            "Minimum voltage of the QSFP "
-            "below which a warning should be raised",
+            "Minimum voltage of the QSFP"
+            " below which a warning should be raised",
             labels=["port"],
             unit="volts",
         )
         qsfp_voltage_warning_max = GaugeMetricFamily(
             "p4_switch_qsfp_voltage_warning_max",
-            "Maximum voltage of the QSFP "
-            "above which a warning should be raised",
+            "Maximum voltage of the QSFP"
+            " above which a warning should be raised",
             labels=["port"],
             unit="volts",
         )
         qsfp_voltage_alarm_min = GaugeMetricFamily(
             "p4_switch_qsfp_voltage_alarm_min",
-            "Minimum voltage of the QSFP "
-            "below which an alarm should be raised",
+            "Minimum voltage of the QSFP"
+            " below which an alarm should be raised",
             labels=["port"],
             unit="volts",
         )
         qsfp_voltage_alarm_max = GaugeMetricFamily(
             "p4_switch_qsfp_voltage_alarm_max",
-            "Maximum voltage of the QSFP "
-            "above which an alarm should be raised",
+            "Maximum voltage of the QSFP"
+            " above which an alarm should be raised",
             labels=["port"],
             unit="volts",
         )
@@ -383,50 +383,50 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
         )
         qsfp_rx_power_warning_min = GaugeMetricFamily(
             "p4_switch_qsfp_rx_power_warning_min",
-            "Minimum RX power on the QSFP channel "
-            "below which a warning should be raised",
+            "Minimum RX power on the QSFP channel"
+            " below which a warning should be raised",
             labels=["port"],
         )
         qsfp_rx_power_warning_max = GaugeMetricFamily(
             "p4_switch_qsfp_rx_power_warning_max",
-            "Maximum RX power on the QSFP channel "
-            "above which a warning should be raised",
+            "Maximum RX power on the QSFP channel"
+            " above which a warning should be raised",
             labels=["port"],
         )
         qsfp_rx_power_alarm_min = GaugeMetricFamily(
             "p4_switch_qsfp_rx_power_alarm_min",
-            "Minimum RX power on the QSFP channel "
-            "below which an alarm should be raised",
+            "Minimum RX power on the QSFP channel"
+            " below which an alarm should be raised",
             labels=["port"],
         )
         qsfp_rx_power_alarm_max = GaugeMetricFamily(
             "p4_switch_qsfp_rx_power_alarm_max",
-            "Maximum RX power on the QSFP channel "
-            "above which an alarm should be raised",
+            "Maximum RX power on the QSFP channel"
+            " above which an alarm should be raised",
             labels=["port"],
         )
         qsfp_tx_power_warning_min = GaugeMetricFamily(
             "p4_switch_qsfp_tx_power_warning_min",
-            "Minimum TX power on the QSFP channel "
-            "below which a warning should be raised",
+            "Minimum TX power on the QSFP channel"
+            " below which a warning should be raised",
             labels=["port"],
         )
         qsfp_tx_power_warning_max = GaugeMetricFamily(
             "p4_switch_qsfp_tx_power_warning_max",
-            "Maximum TX power on the QSFP channel "
-            "above which a warning should be raised",
+            "Maximum TX power on the QSFP channel"
+            " above which a warning should be raised",
             labels=["port"],
         )
         qsfp_tx_power_alarm_min = GaugeMetricFamily(
             "p4_switch_qsfp_tx_power_alarm_min",
-            "Minimum TX power on the QSFP channel "
-            "below which an alarm should be raised",
+            "Minimum TX power on the QSFP channel"
+            " below which an alarm should be raised",
             labels=["port"],
         )
         qsfp_tx_power_alarm_max = GaugeMetricFamily(
             "p4_switch_qsfp_tx_power_alarm_max",
-            "Maximum TX power on the QSFP channel "
-            "above which an alarm should be raised",
+            "Maximum TX power on the QSFP channel"
+            " above which an alarm should be raised",
             labels=["port"],
         )
 
