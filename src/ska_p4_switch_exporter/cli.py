@@ -84,7 +84,7 @@ def run(
     # may not be available. Importing them at the top level would make all
     # CLI invocations raise an ImportError, which is annoying when you just
     # want to print help text.
-    # pylint: disable=import-outside-toplevel
+    # pylint: disable-next=import-outside-toplevel
     from ska_p4_switch_exporter import collectors
 
     registry = CollectorRegistry()

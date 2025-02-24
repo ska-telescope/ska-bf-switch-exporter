@@ -51,7 +51,7 @@ To lint the Python code, run:
 
 ### Ansible development
 
-This repository also contains an Ansible collection to automate the installation of the Prometheus exporters on SKA infrastructure, which can be found in [`ansible/](./ansible/).
+This repository also contains an Ansible collection to automate the installation of the Prometheus exporters on SKA infrastructure, which can be found in [`ansible/`](./ansible/).
 
 To lint the Ansible collection, run:
 

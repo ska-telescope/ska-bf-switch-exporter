@@ -18,8 +18,8 @@ Usage
 .. code-block:: console
 
   $ ska-p4-switch-exporter \
-  --sde-lib-path /opt/intel/bf-sde/install/lib/python3.10/ \
-  --rpc-host 192.168.0.1
+      --sde-lib-path /opt/intel/bf-sde/install/lib/python3.10/ \
+      --rpc-host 192.168.0.1
 
 
 Command-Line Options
