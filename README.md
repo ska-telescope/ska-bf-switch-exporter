@@ -69,6 +69,37 @@ Note that documentation builds are incremental, to perform a full documentation 
 
     make docs-build clean
 
+### Creating a new release
+
+Creating a new release largely follows the [SKAO software release procedure](https://developer.skao.int/en/latest/tutorial/release-management/automate-release-process.html#how-to-make-a-release).
+
+#### Bump the release version
+
+Bump the release version with:
+
+    make bump-<major|minor|patch>-release
+
+This should automatically update the version information in [`.release`](./.release) and [`pyproject.toml`](./pyproject.toml).
+
+The following files should be updated **manually**:
+
+- [`ansible/galaxy.yml`](./ansible/galaxy.yml)
+
+#### Update the CHANGELOG.md
+
+Manually update the [`CHANGELOG.md`](./CHANGELOG.md), replacing the "Unreleased" header with the version you're releasing.
+Also add the release date to the section, see the previous releases for an example.
+
+#### Commit and tag your changes
+
+Commit your outstanding changes, and then create a git tag for the release using:
+
+    make create-git-tag
+
+Push the git tag using:
+
+    make push-git-tag
+
 ## License information
 
 See [LICENSE](./LICENSE).
