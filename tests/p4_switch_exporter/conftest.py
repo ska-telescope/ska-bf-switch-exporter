@@ -7,7 +7,7 @@ Pytest configuration for this test module.
 import sys
 from unittest import mock
 
-from . import pltfm_mgr_rpc_mock
+from . import pal_rpc_mock, pltfm_mgr_rpc_mock
 
 pltfm_mgr_rpc = type(sys)("pltfm_mgr_rpc")
 pltfm_mgr_rpc.pltfm_mgr_rpc = pltfm_mgr_rpc_mock
@@ -15,7 +15,7 @@ sys.modules["pltfm_mgr_rpc"] = pltfm_mgr_rpc
 
 tofino = type(sys)("tofino")
 tofino.pal_rpc = type(sys)("pal_rpc")
-tofino.pal_rpc.pal = mock.MagicMock()
+tofino.pal_rpc.pal = pal_rpc_mock
 sys.modules["tofino"] = tofino
 sys.modules["tofino.pal_rpc"] = tofino.pal_rpc
 

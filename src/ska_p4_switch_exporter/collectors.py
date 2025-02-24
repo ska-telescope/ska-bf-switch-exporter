@@ -140,7 +140,7 @@ class PalRpcCollector(_RpcCollectorBase):
             labels=["port"],
         )
         port_frames_received_total = CounterMetricFamily(
-            "p4_switch_port_frames_received_total",
+            "p4_switch_port_frames_received",
             "The total number of frames received on the port",
             labels=["port"],
         )
@@ -155,7 +155,7 @@ class PalRpcCollector(_RpcCollectorBase):
             labels=["port"],
         )
         port_frames_transmitted_total = CounterMetricFamily(
-            "p4_switch_port_frames_transmitted_total",
+            "p4_switch_port_frames_transmitted",
             "The total number of frames transmitted on the port",
             labels=["port"],
         )
@@ -171,48 +171,47 @@ class PalRpcCollector(_RpcCollectorBase):
         )
 
         with self._get_rpc_client() as client:
-            port = client.pal_port_get_first(0)
-            while port:
-                try:
-                    if not client.pal_port_is_valid(0, port):
-                        port = client.pal_port_get_next(0, port)
-                        continue
+            for port in self._iter_ports(client):
+                fp_port = client.pal_port_dev_port_to_front_panel_port_get(
+                    0, port
+                )
+                port_label = (
+                    f"{fp_port.pal_front_port}/{fp_port.pal_front_chnl}"
+                )
+                self._logger.debug(
+                    "Port %d corresponds to front panel port %s",
+                    port,
+                    port_label,
+                )
 
-                    fp_port = client.pal_port_dev_port_to_front_panel_port_get(
-                        0, port
-                    )
-                    port_label = (
-                        f"{fp_port.pal_front_port}/{fp_port.pal_front_chnl}"
-                    )
-
-                    port_up.add_metric(
-                        [port_label], client.pal_port_oper_status_get(0, port)
-                    )
-                    port_frames_received_total.add_metric(
-                        [port_label], client.pal_port_this_stat_get(0, port, 1)
-                    )
-                    port_frames_received_ok.add_metric(
-                        [port_label], client.pal_port_this_stat_get(0, port, 0)
-                    )
-                    port_frames_received_nok.add_metric(
-                        [port_label], client.pal_port_this_stat_get(0, port, 3)
-                    )
-                    port_frames_transmitted_total.add_metric(
-                        [port_label],
-                        client.pal_port_this_stat_get(0, port, 33),
-                    )
-                    port_frames_transmitted_ok.add_metric(
-                        [port_label],
-                        client.pal_port_this_stat_get(0, port, 32),
-                    )
-                    port_frames_transmitted_nok.add_metric(
-                        [port_label],
-                        client.pal_port_this_stat_get(0, port, 34),
-                    )
-
-                    port = client.pal_port_get_next(0, port)
-                except self._rpc_module.InvalidPalOperation:
-                    break
+                port_up.add_metric(
+                    [port_label],
+                    float(client.pal_port_oper_status_get(0, port)),
+                )
+                port_frames_received_total.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 1)),
+                )
+                port_frames_received_ok.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 0)),
+                )
+                port_frames_received_nok.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 3)),
+                )
+                port_frames_transmitted_total.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 33)),
+                )
+                port_frames_transmitted_ok.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 32)),
+                )
+                port_frames_transmitted_nok.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 34)),
+                )
 
         yield from [
             port_up,
@@ -223,6 +222,28 @@ class PalRpcCollector(_RpcCollectorBase):
             port_frames_transmitted_ok,
             port_frames_transmitted_nok,
         ]
+
+    def _iter_ports(self, client: pal.Client):
+        port = client.pal_port_get_first(0)
+        while True:
+            self._logger.debug("Processing port %d", port)
+            try:
+                if not client.pal_port_is_valid(0, port):
+                    self._logger.debug("Port %d is not valid, skipping", port)
+                    port = client.pal_port_get_next(0, port)
+                    continue
+
+                yield port
+                self._logger.debug("Retrieving next port")
+                port = client.pal_port_get_next(0, port)
+            except pal.InvalidPalOperation:
+                self._logger.debug(
+                    "Error while processing port %d, "
+                    "assuming no more ports are available",
+                    port,
+                    exc_info=True,
+                )
+                break
 
 
 class PlatformManagerRpcCollector(_RpcCollectorBase):
