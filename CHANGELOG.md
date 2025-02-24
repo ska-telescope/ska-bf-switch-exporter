@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog], and this project adheres to [Semantic Versioning][semver].
 
+## Unreleased
+
+### Fixed
+
+- The Ansible roles no longer fail due to an undefined role variable, which was only set when overriding the
+  PyPi index for the `ska-ds-psi-prometheus-exporter` Python package.
+
 ## 0.0.1
 
 Release date: 2025-02-24

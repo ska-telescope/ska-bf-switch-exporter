@@ -4,6 +4,7 @@
 
 - name: Set role facts
   ansible.builtin.set_fact:
+    pip_extra_args: ""
     target_python_version: "python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}"
 
 - name: Ensure installation directory exists
