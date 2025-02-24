@@ -83,7 +83,9 @@ This should automatically update the version information in [`.release`](./.rele
 
 The following files should be updated **manually**:
 
-- [`ansible/galaxy.yml`](./ansible/galaxy.yml)
+- [`ansible/galaxy.yml`](./ansible/galaxy.yml): change the `version`
+- [`ansible/roles/p4_switch_exporter/defaults/main.yml`](./ansible/roles/p4_switch_exporter/defaults/main.yml): change the `p4_switch_exporter_version`
+- [`ansible/roles/xrt_fpga_exporter/defaults/main.yml`](./ansible/roles/xrt_fpga_exporter/defaults/main.yml): change the `xrt_fpga_exporter_version`
 
 #### Update the CHANGELOG.md
 

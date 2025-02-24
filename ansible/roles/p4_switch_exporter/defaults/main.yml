@@ -1,5 +1,5 @@
 ---
-p4_switch_exporter_version: 0.0.1
+p4_switch_exporter_version: 0.0.4
 p4_switch_exporter_install_dir: /opt/skao/ska-p4-switch-exporter
 p4_switch_exporter_sde_path: /opt/intel/bf-sde
 p4_switch_exporter_rpc_host: "{{ ansible_host }}"

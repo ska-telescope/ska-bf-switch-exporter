@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ska-ds-psi-prometheus-exporters"
-version = "0.0.3"
+version = "0.0.4"
 description = ""
 authors = ["Sander Ploegsma <sander.ploegsma@topic.nl>"]
 license = "BSD-3-Clause"

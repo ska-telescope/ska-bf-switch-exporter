@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog], and this project adheres to [Semantic Versioning][semver].
 
+## 0.0.4
+
+Release date: 2025-02-25
+
+### Fixed
+
+- The default versions for the `ska_collections.ds_psi_exporters.p4_switch_exporter`
+  and `ska_collections.ds_psi_exporters.xrt_fpga_exporter` Ansible roles have been
+  updated to match the current release version.
+- The release process instructions in the repository `README.md` have been updated to
+  make sure the Ansible role defaults are updated as well.
+
 ## 0.0.3
 
 Release date: 2025-02-25
