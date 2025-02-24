@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog], and this project adheres to [Semantic Versioning][semver].
 
+## 0.0.3
+
+Release date: 2025-02-25
+
+### Fixed
+
+- The Ansible collection metadata was not updated to reflect the version change, so installing it would make it look like it was installing version `0.0.1` instead of `0.0.2`.
+  The release process is now documented in the repository `README.md` so that manually updating the Ansible collection version is not forgotten.
+
 ## 0.0.2
 
 Release date 2025-02-24
