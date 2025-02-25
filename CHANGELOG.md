@@ -9,10 +9,10 @@ The format is based on [Keep a Changelog][keepachangelog], and this project adhe
 ### Added
 
 - `ska-p4-switch-exporter`: Added the following metrics: 
-  - `p4_switch_bytes_received_total`
-  - `p4_switch_bytes_received_ok_total`
-  - `p4_switch_bytes_transmitted_total`
-  - `p4_switch_bytes_transmitted_ok_total`
+  - `p4_switch_bytes_received_total`: The total number of bytes received on the port
+  - `p4_switch_bytes_received_ok_total`: The total number of bytes received in OK frames on the port
+  - `p4_switch_bytes_transmitted_total`: The total number of bytes transmitted on the port
+  - `p4_switch_bytes_transmitted_ok_total`: The total number of bytes transmitted without errors on the port
 
 ### Fixed
 
