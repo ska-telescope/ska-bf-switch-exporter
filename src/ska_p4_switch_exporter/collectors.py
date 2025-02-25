@@ -326,7 +326,7 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
             "p4_switch_system_temperature",
             "Temperature of the system",
             labels=["id"],
-            unit="degrees",
+            unit="celsius",
         )
 
         qsfp_info = InfoMetricFamily(
@@ -343,35 +343,35 @@ class PlatformManagerRpcCollector(_RpcCollectorBase):
             "p4_switch_qsfp_temperature",
             "Temperature of the QSFP",
             labels=["port"],
-            unit="degrees",
+            unit="celsius",
         )
         qsfp_temperature_warning_min = GaugeMetricFamily(
             "p4_switch_qsfp_temperature_warning_min",
             "Minimum temperature of the QSFP"
             " below which a warning should be raised",
             labels=["port"],
-            unit="degrees",
+            unit="celsius",
         )
         qsfp_temperature_warning_max = GaugeMetricFamily(
             "p4_switch_qsfp_temperature_warning_max",
             "Maximum temperature of the QSFP"
             " above which a warning should be raised",
             labels=["port"],
-            unit="degrees",
+            unit="celsius",
         )
         qsfp_temperature_alarm_min = GaugeMetricFamily(
             "p4_switch_qsfp_temperature_alarm_min",
             "Minimum temperature of the QSFP"
             " below which an alarm should be raised",
             labels=["port"],
-            unit="degrees",
+            unit="celsius",
         )
         qsfp_temperature_alarm_max = GaugeMetricFamily(
             "p4_switch_qsfp_temperature_alarm_max",
             "Maximum temperature of the QSFP"
             " above which an alarm should be raised",
             labels=["port"],
-            unit="degrees",
+            unit="celsius",
         )
         qsfp_voltage = GaugeMetricFamily(
             "p4_switch_qsfp_voltage",

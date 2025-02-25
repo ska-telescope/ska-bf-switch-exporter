@@ -32,18 +32,18 @@ def register(registry: CollectorRegistry):
         ("tofino", 47.5),
     ],
 )
-def test_system_temperature_degrees(
+def test_system_temperature_celsius(
     registry: CollectorRegistry,
     loc: str,
     expected: float,
 ):
     """
-    Tests whether the ``p4_switch_system_temperature_degrees`` metric
+    Tests whether the ``p4_switch_system_temperature_celsius`` metric
     is correctly exported by the collector.
     """
     assert (
         registry.get_sample_value(
-            "p4_switch_system_temperature_degrees",
+            "p4_switch_system_temperature_celsius",
             labels={"id": loc},
         )
         == expected
@@ -86,7 +86,7 @@ def test_qsfp_present(
         "p4_switch_qsfp_channel_rx_power",
         "p4_switch_qsfp_channel_tx_power",
         "p4_switch_qsfp_info",
-        "p4_switch_qsfp_temperature_degrees",
+        "p4_switch_qsfp_temperature_celsius",
         "p4_switch_qsfp_voltage_volts",
     ],
 )
@@ -144,20 +144,20 @@ def test_qsfp_channel_count(
         ("5", 50.0),
     ],
 )
-def test_qsfp_temperature_degrees(
+def test_qsfp_temperature_celsius(
     registry: CollectorRegistry,
     port: str,
     expected: float,
 ):
     """
-    Tests whether the ``p4_switch_qsfp_temperature_degrees`` metric is
+    Tests whether the ``p4_switch_qsfp_temperature_celsius`` metric is
     correctly exported by the collector.
 
     This metric should only be exported for ports where a QSFP is present.
     """
     assert (
         registry.get_sample_value(
-            "p4_switch_qsfp_temperature_degrees",
+            "p4_switch_qsfp_temperature_celsius",
             labels={"port": port},
         )
         == expected
@@ -304,10 +304,10 @@ def test_no_qsfp_info_when_parsing_fails(
 @pytest.mark.parametrize(
     "metric",
     [
-        "p4_switch_qsfp_temperature_alarm_max_degrees",
-        "p4_switch_qsfp_temperature_alarm_min_degrees",
-        "p4_switch_qsfp_temperature_warning_max_degrees",
-        "p4_switch_qsfp_temperature_warning_min_degrees",
+        "p4_switch_qsfp_temperature_alarm_max_celsius",
+        "p4_switch_qsfp_temperature_alarm_min_celsius",
+        "p4_switch_qsfp_temperature_warning_max_celsius",
+        "p4_switch_qsfp_temperature_warning_min_celsius",
     ],
 )
 @pytest.mark.parametrize(

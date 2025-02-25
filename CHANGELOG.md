@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog][keepachangelog], and this project adhe
 ### Fixed
 
 - `ska-p4-switch-exporter`: Fixed a small typo in the help text of the `ska_p4_switch_exporter_info` metric.
+- The temperature metrics were suffixed with `_degrees`, which is technically not a unit and is ambiguous.
+  These have been renamed to end with `_celsius` instead.
 
 ## 0.0.4
 
