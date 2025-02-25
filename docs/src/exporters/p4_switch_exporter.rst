@@ -51,7 +51,7 @@ Example output
 
 ::
 
-  # HELP ska_p4_switch_exporter_info Information about the ska-p4-switch_exporter
+  # HELP ska_p4_switch_exporter_info Information about the ska-p4-switch-exporter
   # TYPE ska_p4_switch_exporter_info gauge
   ska_p4_switch_exporter_info{version="0.0.1"} 1.0
   # HELP p4_switch_system_temperature_degrees Temperature of the system

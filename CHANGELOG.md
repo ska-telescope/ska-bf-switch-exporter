@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog][keepachangelog], and this project adhe
   - `p4_switch_bytes_transmitted_total`
   - `p4_switch_bytes_transmitted_ok_total`
 
+### Fixed
+
+- `ska-p4-switch-exporter`: Fixed a small typo in the help text of the `ska_p4_switch_exporter_info` metric.
+
 ## 0.0.4
 
 Release date: 2025-02-25

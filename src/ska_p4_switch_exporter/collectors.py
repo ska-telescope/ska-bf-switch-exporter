@@ -53,7 +53,7 @@ class ExporterInfoCollector(Collector):
     def collect(self):
         yield InfoMetricFamily(
             "ska_p4_switch_exporter",
-            "Information about the ska-p4-switch_exporter",
+            "Information about the ska-p4-switch-exporter",
             value={"version": release.version},
         )
 
