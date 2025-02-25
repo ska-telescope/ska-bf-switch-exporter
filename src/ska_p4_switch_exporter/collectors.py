@@ -139,7 +139,7 @@ class PalRpcCollector(_RpcCollectorBase):
             "Operational status of the port",
             labels=["port"],
         )
-        port_frames_received_total = CounterMetricFamily(
+        port_frames_received = CounterMetricFamily(
             "p4_switch_port_frames_received",
             "The total number of frames received on the port",
             labels=["port"],
@@ -154,7 +154,17 @@ class PalRpcCollector(_RpcCollectorBase):
             "The number of frames received NOK on the port",
             labels=["port"],
         )
-        port_frames_transmitted_total = CounterMetricFamily(
+        port_bytes_received = CounterMetricFamily(
+            "p4_switch_port_bytes_received",
+            "The total number of bytes received on the port",
+            labels=["port"],
+        )
+        port_bytes_received_ok = CounterMetricFamily(
+            "p4_switch_port_bytes_received_ok",
+            "The total number of bytes received in OK frames on the port",
+            labels=["port"],
+        )
+        port_frames_transmitted = CounterMetricFamily(
             "p4_switch_port_frames_transmitted",
             "The total number of frames transmitted on the port",
             labels=["port"],
@@ -167,6 +177,17 @@ class PalRpcCollector(_RpcCollectorBase):
         port_frames_transmitted_nok = CounterMetricFamily(
             "p4_switch_port_frames_transmitted_nok",
             "The number of frames transmitted NOK on the port",
+            labels=["port"],
+        )
+        port_bytes_transmitted = CounterMetricFamily(
+            "p4_switch_port_bytes_transmitted",
+            "The total number of bytes transmitted on the port",
+            labels=["port"],
+        )
+        port_bytes_transmitted_ok = CounterMetricFamily(
+            "p4_switch_port_bytes_transmitted_ok",
+            "The total number of bytes transmitted"
+            " without errors on the port",
             labels=["port"],
         )
 
@@ -188,7 +209,7 @@ class PalRpcCollector(_RpcCollectorBase):
                     [port_label],
                     float(client.pal_port_oper_status_get(0, port)),
                 )
-                port_frames_received_total.add_metric(
+                port_frames_received.add_metric(
                     [port_label],
                     float(client.pal_port_this_stat_get(0, port, 1)),
                 )
@@ -200,7 +221,15 @@ class PalRpcCollector(_RpcCollectorBase):
                     [port_label],
                     float(client.pal_port_this_stat_get(0, port, 3)),
                 )
-                port_frames_transmitted_total.add_metric(
+                port_bytes_received.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 5)),
+                )
+                port_bytes_received_ok.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 4)),
+                )
+                port_frames_transmitted.add_metric(
                     [port_label],
                     float(client.pal_port_this_stat_get(0, port, 33)),
                 )
@@ -212,15 +241,27 @@ class PalRpcCollector(_RpcCollectorBase):
                     [port_label],
                     float(client.pal_port_this_stat_get(0, port, 34)),
                 )
+                port_bytes_transmitted.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 36)),
+                )
+                port_bytes_transmitted_ok.add_metric(
+                    [port_label],
+                    float(client.pal_port_this_stat_get(0, port, 35)),
+                )
 
         yield from [
             port_up,
-            port_frames_received_total,
+            port_frames_received,
             port_frames_received_ok,
             port_frames_received_nok,
-            port_frames_transmitted_total,
+            port_bytes_received,
+            port_bytes_received_ok,
+            port_frames_transmitted,
             port_frames_transmitted_ok,
             port_frames_transmitted_nok,
+            port_bytes_transmitted,
+            port_bytes_transmitted_ok,
         ]
 
     def _iter_ports(self, client: pal.Client):

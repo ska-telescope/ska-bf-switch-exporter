@@ -80,6 +80,10 @@ def test_port_up(
         "p4_switch_port_frames_transmitted_total",
         "p4_switch_port_frames_transmitted_ok_total",
         "p4_switch_port_frames_transmitted_nok_total",
+        "p4_switch_port_bytes_received_total",
+        "p4_switch_port_bytes_received_ok_total",
+        "p4_switch_port_bytes_transmitted_total",
+        "p4_switch_port_bytes_transmitted_ok_total",
     ],
 )
 def test_port_counters_are_exported_for_all_ports(
