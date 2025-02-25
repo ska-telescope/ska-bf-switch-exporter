@@ -58,13 +58,13 @@ Example output
   # HELP xrt_fpga_info Information about the Xilinx XRT FPGA device
   # TYPE xrt_fpga_info gauge
   xrt_fpga_info{bdf="0000:d1:00.1",name="xilinx_u55c_gen3x16_xdma_base_3",serial="000000000000",xrt_branch="2022.2",xrt_build_date="2022-10-08 09:49:53",xrt_hash="43926231f7183688add2dccfd391b36a1f000bea",xrt_version="2.14.354"} 1.0
-  # HELP xrt_fpga_temperature_degrees Temperature of the Xilinx XRT FPGA device
-  # TYPE xrt_fpga_temperature_degrees gauge
-  xrt_fpga_temperature_degrees{bdf="0000:d1:00.1",description="PCB Top Front",location="pcb_top_front"} 26.0
-  xrt_fpga_temperature_degrees{bdf="0000:d1:00.1",description="PCB Top Rear",location="pcb_top_rear"} 23.0
-  xrt_fpga_temperature_degrees{bdf="0000:d1:00.1",description="Cage0",location="cage_temp_0"} 23.0
-  xrt_fpga_temperature_degrees{bdf="0000:d1:00.1",description="FPGA",location="fpga0"} 28.0
-  xrt_fpga_temperature_degrees{bdf="0000:d1:00.1",description="Int Vcc",location="int_vcc"} 31.0
+  # HELP xrt_fpga_temperature_celsius Temperature of the Xilinx XRT FPGA device
+  # TYPE xrt_fpga_temperature_celsius gauge
+  xrt_fpga_temperature_celsius{bdf="0000:d1:00.1",description="PCB Top Front",location="pcb_top_front"} 26.0
+  xrt_fpga_temperature_celsius{bdf="0000:d1:00.1",description="PCB Top Rear",location="pcb_top_rear"} 23.0
+  xrt_fpga_temperature_celsius{bdf="0000:d1:00.1",description="Cage0",location="cage_temp_0"} 23.0
+  xrt_fpga_temperature_celsius{bdf="0000:d1:00.1",description="FPGA",location="fpga0"} 28.0
+  xrt_fpga_temperature_celsius{bdf="0000:d1:00.1",description="Int Vcc",location="int_vcc"} 31.0
   # HELP xrt_fpga_current_amps Current of the Xilinx XRT FPGA device
   # TYPE xrt_fpga_current_amps gauge
   xrt_fpga_current_amps{bdf="0000:d1:00.1",description="12 Volts Auxillary",location="12v_aux"} 0.336
