@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog], and this project adheres to [Semantic Versioning][semver].
 
+## Unreleased
+
+### Added
+
+- `ska-p4-switch-exporter`: Added the following metrics: 
+  - `p4_switch_bytes_received_total`
+  - `p4_switch_bytes_received_ok_total`
+  - `p4_switch_bytes_transmitted_total`
+  - `p4_switch_bytes_transmitted_ok_total`
+
 ## 0.0.4
 
 Release date: 2025-02-25
