@@ -172,9 +172,17 @@ Example output
   # TYPE p4_switch_port_frames_received_ok_total counter
   # HELP p4_switch_port_frames_received_nok_total The number of frames received NOK on the port
   # TYPE p4_switch_port_frames_received_nok_total counter
-  # HELP p4_switch_port_frames_transmitted_total The total number of frames transmitted on the port
+  # HELP p4_switch_port_bytes_received_total The total number of bytes received on the port
+  # TYPE p4_switch_port_bytes_received_total counter
+  # HELP p4_switch_port_bytes_received_ok_total The number of bytes received in OK frames on the port
+  # TYPE p4_switch_port_bytes_received_ok_total counter
+  # HELP p4_switch_port_frames_received_total The total number of frames received on the port
   # TYPE p4_switch_port_frames_transmitted_total counter
   # HELP p4_switch_port_frames_transmitted_ok_total The number of frames transmitted OK on the port
   # TYPE p4_switch_port_frames_transmitted_ok_total counter
   # HELP p4_switch_port_frames_transmitted_nok_total The number of frames transmitted NOK on the port
   # TYPE p4_switch_port_frames_transmitted_nok_total counter
+  # HELP p4_switch_port_bytes_transmitted_total The total number of bytes transmitted on the port
+  # TYPE p4_switch_port_bytes_transmitted_total counter
+  # HELP p4_switch_port_bytes_transmitted_ok_total The number of bytes transmitted without errors on the port
+  # TYPE p4_switch_port_bytes_transmitted_ok_total counter
