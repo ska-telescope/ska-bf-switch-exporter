@@ -11,6 +11,11 @@ The format is based on [Keep a Changelog][keepachangelog], and this project adhe
 - `ska-p4-switch-exporter`: The `p4_switch_port_*` metrics now have separate labels for the front-panel port and channel numbers, instead of combining them into a single label.
   This makes it possible to join them with the `p4_switch_qsfp_*` metrics.
 
+### Fixed
+
+- The temperature metrics were suffixed with `_degrees`, which is technically not a unit and is ambiguous.
+  These have been renamed to end with `_celsius` instead.
+
 ## 0.0.4
 
 Release date: 2025-02-25
