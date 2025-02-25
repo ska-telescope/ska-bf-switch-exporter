@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog], and this project adheres to [Semantic Versioning][semver].
 
+## Unreleased
+
+### Fixed
+
+- The temperature metrics were suffixed with `_degrees`, which is technically not a unit and is ambiguous.
+  These have been renamed to end with `_celsius` instead.
+
 ## 0.0.4
 
 Release date: 2025-02-25

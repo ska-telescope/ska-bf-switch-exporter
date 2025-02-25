@@ -74,7 +74,7 @@ class XrtFpgaCollector(Collector):
             "xrt_fpga_temperature",
             "Temperature of the Xilinx XRT FPGA device",
             labels=["bdf", "location", "description"],
-            unit="degrees",
+            unit="celsius",
         )
         voltage = GaugeMetricFamily(
             "xrt_fpga_voltage",
