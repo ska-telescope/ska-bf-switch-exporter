@@ -50,7 +50,7 @@ def register(registry: CollectorRegistry):
             },
         ),
         (
-            "xrt_fpga_temperature_degrees",
+            "xrt_fpga_temperature_celsius",
             27.0,
             {
                 "bdf": "0000:00:00.1",
@@ -59,7 +59,7 @@ def register(registry: CollectorRegistry):
             },
         ),
         (
-            "xrt_fpga_temperature_degrees",
+            "xrt_fpga_temperature_celsius",
             22.0,
             {
                 "bdf": "0000:01:00.1",
@@ -131,7 +131,7 @@ def test_collector_exports_metric(
     ("metric", "labels"),
     [
         (
-            "xrt_fpga_temperature_degrees",
+            "xrt_fpga_temperature_celsius",
             {
                 "bdf": "0000:00:00.1",
                 "location": "fpga_hbm",
@@ -139,7 +139,7 @@ def test_collector_exports_metric(
             },
         ),
         (
-            "xrt_fpga_temperature_degrees",
+            "xrt_fpga_temperature_celsius",
             {
                 "bdf": "0000:01:00.1",
                 "location": "fpga_hbm",
