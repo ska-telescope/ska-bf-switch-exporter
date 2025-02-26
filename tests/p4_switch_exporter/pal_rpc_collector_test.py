@@ -6,32 +6,30 @@ Note: the expected values in this test match the hard-coded test data
 provided in ``pal_rpc_mock.py``.
 """
 
-import itertools
-
 import pytest
 from prometheus_client import CollectorRegistry
 
 from ska_p4_switch_exporter.collectors import PalRpcCollector
 
 PORTS_UP = [
-    "1/0",
-    "3/0",
+    (1, 0),
+    (3, 0),
 ]
 PORTS_DOWN = [
-    "1/1",
-    "1/2",
-    "1/3",
-    "2/0",
-    "2/1",
-    "2/2",
-    "2/3",
-    "3/1",
-    "3/2",
-    "3/3",
-    "4/0",
-    "4/1",
-    "4/2",
-    "4/3",
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (2, 0),
+    (2, 1),
+    (2, 2),
+    (2, 3),
+    (3, 1),
+    (3, 2),
+    (3, 3),
+    (4, 0),
+    (4, 1),
+    (4, 2),
+    (4, 3),
 ]
 
 
@@ -47,30 +45,45 @@ def register(registry: CollectorRegistry):
     )
 
 
-@pytest.mark.parametrize(
-    ("port", "expected"),
-    list(zip(PORTS_UP, itertools.repeat(1.0)))
-    + list(zip(PORTS_DOWN, itertools.repeat(0.0))),
-)
+@pytest.mark.parametrize(("port", "channel"), PORTS_UP)
 def test_port_up(
     registry: CollectorRegistry,
-    port: str,
-    expected: float,
+    port: int,
+    channel: int,
 ):
     """
-    Tests whether the ``p4_switch_port_up`` metric is correctly
-    exported by the collector.
+    Tests whether the ``p4_switch_port_up`` metric exports ``1.0`` for
+    ports that are operational.
     """
     assert (
         registry.get_sample_value(
             "p4_switch_port_up",
-            labels={"port": port},
+            labels={"port": str(port), "channel": str(channel)},
         )
-        == expected
+        == 1.0
     )
 
 
-@pytest.mark.parametrize("port", PORTS_UP + PORTS_DOWN)
+@pytest.mark.parametrize(("port", "channel"), PORTS_DOWN)
+def test_port_not_up(
+    registry: CollectorRegistry,
+    port: int,
+    channel: int,
+):
+    """
+    Tests whether the ``p4_switch_port_up`` metric exports ``0.0`` for
+    ports that are not operational.
+    """
+    assert (
+        registry.get_sample_value(
+            "p4_switch_port_up",
+            labels={"port": str(port), "channel": str(channel)},
+        )
+        == 0.0
+    )
+
+
+@pytest.mark.parametrize(("port", "channel"), PORTS_UP + PORTS_DOWN)
 @pytest.mark.parametrize(
     "metric",
     list(
@@ -81,7 +94,8 @@ def test_port_up(
 def test_port_counters_are_exported_for_all_ports(
     registry: CollectorRegistry,
     metric: str,
-    port: str,
+    port: int,
+    channel: int,
 ):
     """
     Tests whether the given metric is correctly exported by the collector,
@@ -90,7 +104,7 @@ def test_port_counters_are_exported_for_all_ports(
     assert (
         registry.get_sample_value(
             metric,
-            labels={"port": port},
+            labels={"port": str(port), "channel": str(channel)},
         )
         is not None
     )

@@ -60,6 +60,9 @@ The following `ska-p4-switch-exporter` metrics have been renamed:
 | `p4_switch_port_frames_transmitted_ok_total`  | `p4_switch_port_stats_frames_transmitted_ok_total`  |
 | `p4_switch_port_frames_transmitted_nok_total` | `p4_switch_port_stats_frames_transmitted_nok_total` |
 
+Additionally, the `p4_switch_port_*` metrics now have separate labels for the front-panel port and channel numbers, instead of combining them into a single label.
+This makes it possible to join them with the `p4_switch_qsfp_*` metrics.
+
 ### Fixed
 
 - `ska-p4-switch-exporter`: Fixed a small typo in the help text of the `ska_p4_switch_exporter_info` metric.

@@ -380,7 +380,7 @@ class PalRpcCollector(_RpcCollectorBase):
             """
             name = f"p4_switch_port_stats_{self.name.lower()}"
             doc = re.sub(r"\n\s*", " ", self.__doc__)
-            return CounterMetricFamily(name, doc, labels=["port"])
+            return CounterMetricFamily(name, doc, labels=["port", "channel"])
 
     def __init__(
         self,
@@ -406,7 +406,7 @@ class PalRpcCollector(_RpcCollectorBase):
         port_up = GaugeMetricFamily(
             "p4_switch_port_up",
             "Operational status of the port",
-            labels=["port"],
+            labels=["port", "channel"],
         )
 
         stat_metrics = {item: item.create_metric() for item in self.StatMetric}
@@ -416,17 +416,20 @@ class PalRpcCollector(_RpcCollectorBase):
                 fp_port = client.pal_port_dev_port_to_front_panel_port_get(
                     0, port
                 )
-                port_label = (
-                    f"{fp_port.pal_front_port}/{fp_port.pal_front_chnl}"
-                )
                 self._logger.debug(
-                    "Port %d corresponds to front panel port %s",
+                    "Port %d corresponds to front panel port %d/%d",
                     port,
-                    port_label,
+                    fp_port.pal_front_port,
+                    fp_port.pal_front_chnl,
                 )
 
+                labels = [
+                    str(fp_port.pal_front_port),
+                    str(fp_port.pal_front_chnl),
+                ]
+
                 port_up.add_metric(
-                    [port_label],
+                    labels,
                     float(client.pal_port_oper_status_get(0, port)),
                 )
 
@@ -434,7 +437,7 @@ class PalRpcCollector(_RpcCollectorBase):
 
                 for stat, metric in stat_metrics.items():
                     metric.add_metric(
-                        [port_label],
+                        labels,
                         float(stats.entry[stat.value]),
                     )
 
