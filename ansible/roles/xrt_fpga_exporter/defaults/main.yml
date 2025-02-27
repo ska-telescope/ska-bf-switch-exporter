@@ -1,5 +1,5 @@
 ---
-xrt_fpga_exporter_version: 0.0.4
+xrt_fpga_exporter_version: 0.0.5
 xrt_fpga_exporter_install_dir: /opt/skao/ska-xrt-fpga-exporter
 xrt_fpga_exporter_xrt_path: /opt/xilinx/xrt
 
