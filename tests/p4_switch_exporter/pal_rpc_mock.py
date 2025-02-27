@@ -26,6 +26,18 @@ class FrontPanelPort:
     pal_front_chnl: int
 
 
+@dataclasses.dataclass
+class PortStats:
+    """
+    Mock implementation of the struct returned by
+    ``tofino.pal_rpc.pal.Client.pal_port_all_stats_get``.
+    """
+
+    entry: list[int]
+    entry_count: int
+    status: int
+
+
 class Stat(enum.IntEnum):
     """
     Mock implementation of the enum values accepted by
@@ -171,6 +183,13 @@ class Client:
         self._validate_dev_id(dev_id)
         self._validate_port(port)
         return int(port % 8 == 0)
+
+    def pal_port_all_stats_get(self, dev_id: int, port: int):
+        self._validate_dev_id(dev_id)
+        self._validate_port(port)
+
+        stats = list(s.value * 3 for s in Stat)
+        return PortStats(entry=stats, entry_count=len(stats), status=0)
 
     def pal_port_this_stat_get(self, dev_id: int, port: int, stat_id: int):
         self._validate_dev_id(dev_id)

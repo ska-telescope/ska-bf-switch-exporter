@@ -11,7 +11,10 @@ Prometheus metric collectors.
 
 import abc
 import contextlib
+import enum
+import inspect
 import logging
+import re
 from types import ModuleType
 
 from pltfm_mgr_rpc import pltfm_mgr_rpc
@@ -53,7 +56,7 @@ class ExporterInfoCollector(Collector):
     def collect(self):
         yield InfoMetricFamily(
             "ska_p4_switch_exporter",
-            "Information about the ska-p4-switch_exporter",
+            "Information about the ska-p4-switch-exporter",
             value={"version": release.version},
         )
 
@@ -107,11 +110,277 @@ class _RpcCollectorBase(Collector, abc.ABC):
                 transport.close()
 
 
+class MetaEnum(enum.EnumMeta):
+    """
+    Custom metaclass for enum classes that adds support for enum member
+    docstrings.
+
+    Adapted from: https://stackoverflow.com/a/78943193
+    """
+
+    def __new__(mcs, clsname, bases, classdict):
+        cls = super().__new__(mcs, clsname, bases, classdict)
+
+        # Extract source code and split docstrings
+        source = inspect.getsource(cls)
+        docstrings = source.split('"""')[1::2]
+
+        # Assign the docstrings to enum members
+        for member_name, doc_str in zip(cls._member_names_, docstrings[1:]):
+            enum_member = getattr(cls, member_name)
+            enum_member.__doc__ = doc_str.strip()
+
+        return cls
+
+
 class PalRpcCollector(_RpcCollectorBase):
     """
     Custom Prometheus collector that collects metrics exposed by the
     Barefoot PAL RPC.
     """
+
+    class StatMetric(enum.IntEnum, metaclass=MetaEnum):
+        """
+        Metrics for port statistics.
+
+        The enum values correspond with the stat ids used in the PAL RPC.
+
+        Note: the enum names and docstrings are used in the metric names and
+        descriptions, so be aware that making changes in those will have an
+        effect on the exporter output.
+        """
+
+        FRAMES_RECEIVED_OK = 0
+        """
+        The total number of frames received without errors on the port
+        """
+
+        FRAMES_RECEIVED = 1
+        """
+        The total number of frames received on the port
+        """
+
+        FRAMES_RECEIVED_NOK = 3
+        """
+        The total number of frames received with errors on the port
+        """
+
+        BYTES_RECEIVED_OK = 4
+        """
+        The total number of bytes received in OK frames on the port
+        """
+
+        BYTES_RECEIVED = 5
+        """
+        The total number of bytes received on the port
+        """
+
+        FRAMES_RECEIVED_UNICAST = 6
+        """
+        The total number of unicast frames received on the port
+        """
+
+        FRAMES_RECEIVED_MULTICAST = 7
+        """
+        The total number of multicast frames received on the port
+        """
+
+        FRAMES_RECEIVED_BROADCAST = 8
+        """
+        The total number of broadcast frames received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_LESS_THAN_64 = 20
+        """
+        The total number of frames with a length of less than 64 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_64 = 21
+        """
+        The total number of frames with a length of exactly 64 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_65_127 = 22
+        """
+        The total number of frames with a length of 65 to 127 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_128_255 = 23
+        """
+        The total number of frames with a length of 128 to 255 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_256_511 = 24
+        """
+        The total number of frames with a length of 256 to 511 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_512_1023 = 25
+        """
+        The total number of frames with a length of 512 to 1023 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_1024_1518 = 26
+        """
+        The total number of frames with a length of 1024 to 1518 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_1519_2047 = 27
+        """
+        The total number of frames with a length of 1519 to 2047 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_2048_4095 = 28
+        """
+        The total number of frames with a length of 2048 to 4095 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_4096_8191 = 29
+        """
+        The total number of frames with a length of 4096 to 8191 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_8192_9215 = 30
+        """
+        The total number of frames with a length of 8192 to 9215 bytes
+        received on the port
+        """
+
+        FRAMES_RECEIVED_LENGTH_9216 = 31
+        """
+        The total number of frames with a length of 9216 bytes
+        received on the port
+        """
+
+        FRAMES_TRANSMITTED_OK = 32
+        """
+        The total number of frames transmitted without errors on the port
+        """
+
+        FRAMES_TRANSMITTED = 33
+        """
+        The total number of frames transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_NOK = 34
+        """
+        The total number of frames transmitted with errors on the port
+        """
+
+        BYTES_TRANSMITTED_OK = 35
+        """
+        The total number of bytes transmitted without error on the port
+        """
+
+        BYTES_TRANSMITTED = 36
+        """
+        The total number of bytes transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_UNICAST = 37
+        """
+        The total number of unicast frames transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_MULTICAST = 38
+        """
+        The total number of multicast frames transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_BROADCAST = 39
+        """
+        The total number of broadcast frames transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_LESS_THAN_64 = 43
+        """
+        The total number of frames with a length of less than 64 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_64 = 44
+        """
+        The total number of frames with a length of exactly 64 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_65_127 = 45
+        """
+        The total number of frames with a length of 65 to 127 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_128_255 = 46
+        """
+        The total number of frames with a length of 128 to 255 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_256_511 = 47
+        """
+        The total number of frames with a length of 256 to 511 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_512_1023 = 48
+        """
+        The total number of frames with a length of 512 to 1023 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_1024_1518 = 49
+        """
+        The total number of frames with a length of 1024 to 1518 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_1519_2047 = 50
+        """
+        The total number of frames with a length of 1519 to 2047 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_2048_4095 = 51
+        """
+        The total number of frames with a length of 2048 to 4095 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_4096_8191 = 52
+        """
+        The total number of frames with a length of 4096 to 8191 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_8192_9215 = 53
+        """
+        The total number of frames with a length of 8192 to 9215 bytes
+        transmitted on the port
+        """
+
+        FRAMES_TRANSMITTED_LENGTH_9216 = 54
+        """
+        The total number of frames with a length of 9216 bytes
+        transmitted on the port
+        """
+
+        def create_metric(self):
+            """
+            Create a new Prometheus counter metric for the statistic.
+            """
+            name = f"p4_switch_port_stats_{self.name.lower()}"
+            doc = re.sub(r"\n\s*", " ", self.__doc__)
+            return CounterMetricFamily(name, doc, labels=["port", "channel"])
 
     def __init__(
         self,
@@ -139,36 +408,8 @@ class PalRpcCollector(_RpcCollectorBase):
             "Operational status of the port",
             labels=["port", "channel"],
         )
-        port_frames_received_total = CounterMetricFamily(
-            "p4_switch_port_frames_received",
-            "The total number of frames received on the port",
-            labels=["port", "channel"],
-        )
-        port_frames_received_ok = CounterMetricFamily(
-            "p4_switch_port_frames_received_ok",
-            "The number of frames received OK on the port",
-            labels=["port", "channel"],
-        )
-        port_frames_received_nok = CounterMetricFamily(
-            "p4_switch_port_frames_received_nok",
-            "The number of frames received NOK on the port",
-            labels=["port", "channel"],
-        )
-        port_frames_transmitted_total = CounterMetricFamily(
-            "p4_switch_port_frames_transmitted",
-            "The total number of frames transmitted on the port",
-            labels=["port", "channel"],
-        )
-        port_frames_transmitted_ok = CounterMetricFamily(
-            "p4_switch_port_frames_transmitted_ok",
-            "The number of frames transmitted OK on the port",
-            labels=["port", "channel"],
-        )
-        port_frames_transmitted_nok = CounterMetricFamily(
-            "p4_switch_port_frames_transmitted_nok",
-            "The number of frames transmitted NOK on the port",
-            labels=["port", "channel"],
-        )
+
+        stat_metrics = {item: item.create_metric() for item in self.StatMetric}
 
         with self._get_rpc_client() as client:
             for port in self._iter_ports(client):
@@ -191,40 +432,17 @@ class PalRpcCollector(_RpcCollectorBase):
                     labels,
                     float(client.pal_port_oper_status_get(0, port)),
                 )
-                port_frames_received_total.add_metric(
-                    labels,
-                    float(client.pal_port_this_stat_get(0, port, 1)),
-                )
-                port_frames_received_ok.add_metric(
-                    labels,
-                    float(client.pal_port_this_stat_get(0, port, 0)),
-                )
-                port_frames_received_nok.add_metric(
-                    labels,
-                    float(client.pal_port_this_stat_get(0, port, 3)),
-                )
-                port_frames_transmitted_total.add_metric(
-                    labels,
-                    float(client.pal_port_this_stat_get(0, port, 33)),
-                )
-                port_frames_transmitted_ok.add_metric(
-                    labels,
-                    float(client.pal_port_this_stat_get(0, port, 32)),
-                )
-                port_frames_transmitted_nok.add_metric(
-                    labels,
-                    float(client.pal_port_this_stat_get(0, port, 34)),
-                )
 
-        yield from [
-            port_up,
-            port_frames_received_total,
-            port_frames_received_ok,
-            port_frames_received_nok,
-            port_frames_transmitted_total,
-            port_frames_transmitted_ok,
-            port_frames_transmitted_nok,
-        ]
+                stats = client.pal_port_all_stats_get(0, port)
+
+                for stat, metric in stat_metrics.items():
+                    metric.add_metric(
+                        labels,
+                        float(stats.entry[stat.value]),
+                    )
+
+        yield port_up
+        yield from stat_metrics.values()
 
     def _iter_ports(self, client: pal.Client):
         port = client.pal_port_get_first(0)

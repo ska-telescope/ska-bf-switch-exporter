@@ -86,14 +86,10 @@ def test_port_not_up(
 @pytest.mark.parametrize(("port", "channel"), PORTS_UP + PORTS_DOWN)
 @pytest.mark.parametrize(
     "metric",
-    [
-        "p4_switch_port_frames_received_total",
-        "p4_switch_port_frames_received_ok_total",
-        "p4_switch_port_frames_received_nok_total",
-        "p4_switch_port_frames_transmitted_total",
-        "p4_switch_port_frames_transmitted_ok_total",
-        "p4_switch_port_frames_transmitted_nok_total",
-    ],
+    list(
+        f"p4_switch_port_stats_{m.name.lower()}_total"
+        for m in PalRpcCollector.StatMetric
+    ),
 )
 def test_port_counters_are_exported_for_all_ports(
     registry: CollectorRegistry,
