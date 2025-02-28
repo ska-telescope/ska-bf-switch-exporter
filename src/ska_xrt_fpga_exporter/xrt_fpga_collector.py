@@ -1,12 +1,10 @@
 # pylint: disable=import-error
 # pylint: disable=too-few-public-methods
-# pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
-# pylint: disable=too-many-positional-arguments
 # pylint: disable=too-many-statements
 
 """
-Prometheus metric collectors.
+Custom Prometheus collector that collects metrics from Xilinx XRT FPGAs.
 """
 
 import json
@@ -16,36 +14,9 @@ import pyxrt
 from prometheus_client.core import GaugeMetricFamily, InfoMetricFamily
 from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
 
-from ska_xrt_fpga_exporter import release
-
 __all__ = [
-    "ExporterInfoCollector",
     "XrtFpgaCollector",
 ]
-
-
-class ExporterInfoCollector(Collector):
-    """
-    Custom Prometheus collector that exposes information about this exporter.
-    """
-
-    def __init__(
-        self,
-        logger: logging.Logger | None = None,
-        registry: CollectorRegistry | None = REGISTRY,
-    ):
-        self._logger = logger or logging.getLogger(__name__)
-
-        if registry:
-            self._logger.info("Registering %s", self.__class__.__name__)
-            registry.register(self)
-
-    def collect(self):
-        yield InfoMetricFamily(
-            "ska_xrt_fpga_exporter",
-            "Information about the ska-xrt-fpga-exporter",
-            value={"version": release.version},
-        )
 
 
 class XrtFpgaCollector(Collector):
@@ -110,7 +81,7 @@ class XrtFpgaCollector(Collector):
         for device in self._iter_devices():
             bdf = device.get_info(pyxrt.xrt_info_device.bdf)
             name = device.get_info(pyxrt.xrt_info_device.name)
-            host_info = json.loads(device.get_info(pyxrt.xrt_info_device.host))
+            xclbin_uuid = device.get_xclbin_uuid().to_string()
             platform_info = json.loads(
                 device.get_info(pyxrt.xrt_info_device.platform)
             )
@@ -122,10 +93,7 @@ class XrtFpgaCollector(Collector):
                     "serial": platform_info["platforms"][0]["controller"][
                         "card_mgmt_controller"
                     ]["serial_number"],
-                    "xrt_version": host_info["version"],
-                    "xrt_branch": host_info["branch"],
-                    "xrt_hash": host_info["hash"],
-                    "xrt_build_date": host_info["build_date"],
+                    "xclbin_uuid": xclbin_uuid,
                 },
             )
 

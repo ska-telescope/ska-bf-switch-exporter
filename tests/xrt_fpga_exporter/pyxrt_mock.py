@@ -36,11 +36,25 @@ class xrt_info_device(str, enum.Enum):
     pcie_info = "pcie_info"
     platform = "platform"
     thermal = "thermal"
-    value = "value"
     vmr = "vmr"
 
 
-class FakeXrtDevice:  # pylint: disable=too-few-public-methods
+class uuid:  # pylint: disable=too-few-public-methods
+    """
+    Mock for the ``pyxrt.uuid`` class.
+    """
+
+    def __init__(self, uuid_file_path: pathlib.Path) -> None:
+        self._uuid_file_path = uuid_file_path
+
+    def to_string(self):
+        """
+        Retrieve the uuid as a string.
+        """
+        return self._uuid_file_path.read_text(encoding="utf-8").strip()
+
+
+class FakeXrtDevice:
     """
     Fake XRT device returned by :py:func:`device`.
     """
@@ -54,6 +68,12 @@ class FakeXrtDevice:  # pylint: disable=too-few-public-methods
         """
         info_file = self._info_path / info_device.value
         return info_file.read_text(encoding="utf-8").strip()
+
+    def get_xclbin_uuid(self) -> uuid:
+        """
+        Retrieve the hard-coded xclbin uuid.
+        """
+        return uuid(self._info_path / "xclbin_uuid")
 
 
 def device(device_num: int):

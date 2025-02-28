@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog], and this project adheres to [Semantic Versioning][semver].
 
+## Unreleased
+
+### Added
+
+- The `ska_p4_switch_exporter_info` metric now contains the `python_version` and `sde_version` labels.
+- The `ska_xrt_fpga_exporter_info` metric now contains the `python_version`, `xrt_branch`, `xrt_build_date`, `xrt_hash` and `xrt_version` labels.
+  Note: the XRT version information is no longer part of the `xrt_fpga_info` metric.
+- The `xrt_fpga_info` metric now contains the `xclbin_uuid` label.
+
+### Changed
+
+- The `ska-p4-switch-exporter` metrics introduced in version `0.0.5` have been refactored to combine all frame length-specific metrics into one, with the frame length being added as a label.
+- The `ska-p4-switch-exporter` port statistics metrics have been renamed to match the pattern `p4_switch_port_stats_[rx|tx]_<stat>`.
+
 ## 0.0.5
 
 Release date: 2025-02-27

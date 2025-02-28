@@ -1,6 +1,6 @@
 """
 Unit tests for the
-:py:class:`ska_xrt_fpga_exporter.collectors.XrtFpgaCollector`.
+:py:class:`ska_xrt_fpga_exporter.xrt_fpga_collector.XrtFpgaCollector`.
 
 Note: the expected values in this test match the hard-coded test data
 provided in ``pyxrt_mock.py``.
@@ -9,7 +9,7 @@ provided in ``pyxrt_mock.py``.
 import pytest
 from prometheus_client import CollectorRegistry
 
-from ska_xrt_fpga_exporter.collectors import XrtFpgaCollector
+from ska_xrt_fpga_exporter.xrt_fpga_collector import XrtFpgaCollector
 
 
 @pytest.fixture(autouse=True)
@@ -30,10 +30,7 @@ def register(registry: CollectorRegistry):
                 "bdf": "0000:00:00.1",
                 "name": "xilinx_u55c_gen3x16_xdma_base_3",
                 "serial": "000000000000",
-                "xrt_version": "2.14.354",
-                "xrt_branch": "2022.2",
-                "xrt_hash": "43926231f7183688add2dccfd391b36a1f000bea",
-                "xrt_build_date": "2022-10-08 09:49:53",
+                "xclbin_uuid": "d0020813-8158-5f43-dbcd-7b7a7bfe44c8",
             },
         ),
         (
@@ -43,10 +40,7 @@ def register(registry: CollectorRegistry):
                 "bdf": "0000:01:00.1",
                 "name": "xilinx_u55c_gen3x16_xdma_base_3",
                 "serial": "111111111111",
-                "xrt_version": "2.14.354",
-                "xrt_branch": "2022.2",
-                "xrt_hash": "43926231f7183688add2dccfd391b36a1f000bea",
-                "xrt_build_date": "2022-10-08 09:49:53",
+                "xclbin_uuid": "53bc34d1-9459-5bc8-8254-473236a339b7",
             },
         ),
         (
