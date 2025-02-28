@@ -53,7 +53,7 @@ Example output
 
   # HELP ska_p4_switch_exporter_info Information about the ska-p4-switch-exporter
   # TYPE ska_p4_switch_exporter_info gauge
-  ska_p4_switch_exporter_info{python_version="3.10.2",sde_version="9.13.2",version="0.0.5"} 1.0
+  ska_p4_switch_exporter_info{python_version="3.10.2",sde_version="9.13.2",version="0.0.6"} 1.0
   # HELP p4_switch_system_temperature_celsius Temperature of the system
   # TYPE p4_switch_system_temperature_celsius gauge
   p4_switch_system_temperature_celsius{id="motherboard1"} 37.5

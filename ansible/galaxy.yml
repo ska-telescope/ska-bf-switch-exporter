@@ -1,6 +1,6 @@
 namespace: ska_collections
 name: ds_psi_exporters
-version: 0.0.5
+version: 0.0.6
 readme: README.md
 description: Custom Prometheus exporters used in SKA Digital Signal PSI
 license_file: LICENSE
