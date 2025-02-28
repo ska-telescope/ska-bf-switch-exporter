@@ -49,18 +49,18 @@ def run(
     # may not be available. Importing them at the top level would make all
     # CLI invocations raise an ImportError, which is annoying when you just
     # want to print help text.
-    # pylint: disable=import-outside-toplevel
-    from ska_xrt_fpga_exporter.collectors import (
-        ExporterInfoCollector,
-        XrtFpgaCollector,
+    # pylint: disable-next=import-outside-toplevel
+    from ska_xrt_fpga_exporter import (
+        exporter_info_collector,
+        xrt_fpga_collector,
     )
 
     registry = CollectorRegistry()
-    ExporterInfoCollector(
+    exporter_info_collector.ExporterInfoCollector(
         logger=logger,
         registry=registry,
     )
-    XrtFpgaCollector(
+    xrt_fpga_collector.XrtFpgaCollector(
         logger=logger,
         registry=registry,
     )
