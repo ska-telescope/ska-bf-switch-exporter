@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog], and this project adheres to [Semantic Versioning][semver].
 
+## Unreleased
+
+### Changed
+
+The `ska-p4-switch-exporter` metrics introduced in version `0.0.5` have been refactored to combine all frame length-specific metrics into one, with the frame length being added as a label.
+This makes it a lot easier to work with, as only a single query is needed to see the distribution of frames by their length.
+
+Additionally, the other port statistics metrics have been renamed to match the pattern:
+
+    p4_switch_port_stats_[rx|tx]_<stat>
+
 ## 0.0.5
 
 Release date: 2025-02-27
