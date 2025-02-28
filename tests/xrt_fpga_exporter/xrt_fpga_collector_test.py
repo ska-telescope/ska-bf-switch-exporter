@@ -1,6 +1,6 @@
 """
 Unit tests for the
-:py:class:`ska_xrt_fpga_exporter.collectors.XrtFpgaCollector`.
+:py:class:`ska_xrt_fpga_exporter.xrt_fpga_collector.XrtFpgaCollector`.
 
 Note: the expected values in this test match the hard-coded test data
 provided in ``pyxrt_mock.py``.
@@ -9,7 +9,7 @@ provided in ``pyxrt_mock.py``.
 import pytest
 from prometheus_client import CollectorRegistry
 
-from ska_xrt_fpga_exporter.collectors import XrtFpgaCollector
+from ska_xrt_fpga_exporter.xrt_fpga_collector import XrtFpgaCollector
 
 
 @pytest.fixture(autouse=True)

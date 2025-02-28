@@ -1,12 +1,10 @@
 # pylint: disable=import-error
 # pylint: disable=too-few-public-methods
-# pylint: disable=too-many-arguments
 # pylint: disable=too-many-locals
-# pylint: disable=too-many-positional-arguments
 # pylint: disable=too-many-statements
 
 """
-Prometheus metric collectors.
+Custom Prometheus collector that collects metrics from Xilinx XRT FPGAs.
 """
 
 import json
@@ -16,36 +14,9 @@ import pyxrt
 from prometheus_client.core import GaugeMetricFamily, InfoMetricFamily
 from prometheus_client.registry import REGISTRY, Collector, CollectorRegistry
 
-from ska_xrt_fpga_exporter import release
-
 __all__ = [
-    "ExporterInfoCollector",
     "XrtFpgaCollector",
 ]
-
-
-class ExporterInfoCollector(Collector):
-    """
-    Custom Prometheus collector that exposes information about this exporter.
-    """
-
-    def __init__(
-        self,
-        logger: logging.Logger | None = None,
-        registry: CollectorRegistry | None = REGISTRY,
-    ):
-        self._logger = logger or logging.getLogger(__name__)
-
-        if registry:
-            self._logger.info("Registering %s", self.__class__.__name__)
-            registry.register(self)
-
-    def collect(self):
-        yield InfoMetricFamily(
-            "ska_xrt_fpga_exporter",
-            "Information about the ska-xrt-fpga-exporter",
-            value={"version": release.version},
-        )
 
 
 class XrtFpgaCollector(Collector):

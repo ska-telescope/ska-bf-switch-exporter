@@ -1,13 +1,14 @@
 """
 Unit tests for the
-:py:class:`ska_xrt_fpga_exporter.collectors.ExporterInfoCollector`.
+:py:class:
+`ska_xrt_fpga_exporter.exporter_info_collector.ExporterInfoCollector`.
 """
 
 import pytest
 from prometheus_client import CollectorRegistry
 
 from ska_xrt_fpga_exporter import release
-from ska_xrt_fpga_exporter.collectors import ExporterInfoCollector
+from ska_xrt_fpga_exporter.exporter_info_collector import ExporterInfoCollector
 
 
 @pytest.fixture(autouse=True)
