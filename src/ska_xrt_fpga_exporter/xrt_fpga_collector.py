@@ -81,7 +81,7 @@ class XrtFpgaCollector(Collector):
         for device in self._iter_devices():
             bdf = device.get_info(pyxrt.xrt_info_device.bdf)
             name = device.get_info(pyxrt.xrt_info_device.name)
-            host_info = json.loads(device.get_info(pyxrt.xrt_info_device.host))
+            xclbin_uuid = device.get_xclbin_uuid().to_string()
             platform_info = json.loads(
                 device.get_info(pyxrt.xrt_info_device.platform)
             )
@@ -93,10 +93,7 @@ class XrtFpgaCollector(Collector):
                     "serial": platform_info["platforms"][0]["controller"][
                         "card_mgmt_controller"
                     ]["serial_number"],
-                    "xrt_version": host_info["version"],
-                    "xrt_branch": host_info["branch"],
-                    "xrt_hash": host_info["hash"],
-                    "xrt_build_date": host_info["build_date"],
+                    "xclbin_uuid": xclbin_uuid,
                 },
             )
 

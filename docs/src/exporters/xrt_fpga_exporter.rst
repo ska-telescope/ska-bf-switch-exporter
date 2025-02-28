@@ -54,10 +54,10 @@ Example output
 
   # HELP ska_xrt_fpga_exporter_info Information about the ska-xrt-fpga-exporter
   # TYPE ska_xrt_fpga_exporter_info gauge
-  ska_xrt_fpga_exporter_info{version="0.0.1"} 1.0
+  ska_xrt_fpga_exporter_info{python_version="3.10.2",xrt_branch="2022.2",xrt_build_date="2022-10-08 09:49:53",xrt_hash="43926231f7183688add2dccfd391b36a1f000bea",xrt_version="2.14.354",version="0.0.5"} 1.0
   # HELP xrt_fpga_info Information about the Xilinx XRT FPGA device
   # TYPE xrt_fpga_info gauge
-  xrt_fpga_info{bdf="0000:d1:00.1",name="xilinx_u55c_gen3x16_xdma_base_3",serial="000000000000",xrt_branch="2022.2",xrt_build_date="2022-10-08 09:49:53",xrt_hash="43926231f7183688add2dccfd391b36a1f000bea",xrt_version="2.14.354"} 1.0
+  xrt_fpga_info{bdf="0000:d1:00.1",name="xilinx_u55c_gen3x16_xdma_base_3",serial="000000000000",xclbin_uuid="d0020813-8158-5f43-dbcd-7b7a7bfe44c8"} 1.0
   # HELP xrt_fpga_temperature_celsius Temperature of the Xilinx XRT FPGA device
   # TYPE xrt_fpga_temperature_celsius gauge
   xrt_fpga_temperature_celsius{bdf="0000:d1:00.1",description="PCB Top Front",location="pcb_top_front"} 26.0

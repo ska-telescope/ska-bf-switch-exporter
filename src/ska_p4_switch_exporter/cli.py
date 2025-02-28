@@ -22,7 +22,7 @@ from ska_p4_switch_exporter import exporter_info_collector, release
 )
 @click.version_option(release.version)
 @click.option(
-    "--sde-lib-path",
+    "--sde-install-path",
     type=click.Path(
         exists=True,
         file_okay=False,
@@ -31,7 +31,7 @@ from ska_p4_switch_exporter import exporter_info_collector, release
         path_type=pathlib.Path,
     ),
     required=True,
-    help="Path to the Barefoot SDE Python libraries",
+    help="Path to the Barefoot SDE installation directory",
 )
 @click.option(
     "--rpc-host",
@@ -60,7 +60,7 @@ from ska_p4_switch_exporter import exporter_info_collector, release
     help="Logging level used to configure the Python logger",
 )
 def run(  # pylint: disable=too-many-locals
-    sde_lib_path: pathlib.Path,
+    sde_install_path: pathlib.Path,
     rpc_host: str,
     rpc_port: int,
     web_port: int,
@@ -73,9 +73,11 @@ def run(  # pylint: disable=too-many-locals
     logger = logging.getLogger(__name__)
     logger.info("Starting SKA P4 Switch Prometheus Exporter")
 
+    python_version = f"python{sys.version_info.major}.{sys.version_info.minor}"
+
     for path in [
-        sde_lib_path / "site-packages",
-        sde_lib_path / "site-packages" / "tofino",
+        sde_install_path / "lib" / python_version / "site-packages",
+        sde_install_path / "lib" / python_version / "site-packages" / "tofino",
     ]:
         logger.debug("Appending import path %s", path)
         sys.path.append(str(path))
@@ -93,6 +95,7 @@ def run(  # pylint: disable=too-many-locals
 
     registry = CollectorRegistry()
     exporter_info_collector.ExporterInfoCollector(
+        sde_install_path=sde_install_path,
         logger=logger,
         registry=registry,
     )

@@ -18,7 +18,7 @@ Usage
 .. code-block:: console
 
   $ ska-p4-switch-exporter \
-      --sde-lib-path /opt/intel/bf-sde/install/lib/python3.10/ \
+      --sde-install-path /opt/intel/bf-sde/install/ \
       --rpc-host 192.168.0.1
 
 
@@ -34,8 +34,8 @@ Command-Line Options
 
   Options:
     --version                       Show the version and exit.
-    --sde-lib-path DIRECTORY        Path to the Barefoot SDE Python libraries
-                                    [required]
+    --sde-install-path DIRECTORY    Path to the Barefoot SDE installation
+                                    directory  [required]
     --rpc-host TEXT                 Hostname or IP address of the Barefoot RPC
                                     server  [required]
     --rpc-port INTEGER              Port number of the Barefoot RPC server
@@ -53,7 +53,7 @@ Example output
 
   # HELP ska_p4_switch_exporter_info Information about the ska-p4-switch-exporter
   # TYPE ska_p4_switch_exporter_info gauge
-  ska_p4_switch_exporter_info{version="0.0.1"} 1.0
+  ska_p4_switch_exporter_info{python_version="3.10.2",sde_version="9.13.2",version="0.0.5"} 1.0
   # HELP p4_switch_system_temperature_celsius Temperature of the system
   # TYPE p4_switch_system_temperature_celsius gauge
   p4_switch_system_temperature_celsius{id="motherboard1"} 37.5
