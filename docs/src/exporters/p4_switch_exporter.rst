@@ -53,14 +53,14 @@ Example output
 
   # HELP ska_p4_switch_exporter_info Information about the ska-p4-switch-exporter
   # TYPE ska_p4_switch_exporter_info gauge
-  ska_p4_switch_exporter_info{version="0.0.4"} 1.0
+  ska_p4_switch_exporter_info{version="0.0.1"} 1.0
   # HELP p4_switch_system_temperature_celsius Temperature of the system
   # TYPE p4_switch_system_temperature_celsius gauge
-  p4_switch_system_temperature_celsius{id="motherboard1"} 37.0
-  p4_switch_system_temperature_celsius{id="motherboard2"} 32.0
-  p4_switch_system_temperature_celsius{id="motherboard3"} 30.0
-  p4_switch_system_temperature_celsius{id="motherboard4"} 28.0
-  p4_switch_system_temperature_celsius{id="motherboard5"} 24.0
+  p4_switch_system_temperature_celsius{id="motherboard1"} 37.5
+  p4_switch_system_temperature_celsius{id="motherboard2"} 33.0
+  p4_switch_system_temperature_celsius{id="motherboard3"} 30.5
+  p4_switch_system_temperature_celsius{id="motherboard4"} 28.5
+  p4_switch_system_temperature_celsius{id="motherboard5"} 23.700000762939453
   p4_switch_system_temperature_celsius{id="tofino"} 52.0
   # HELP p4_switch_qsfp_present Whether a QSFP is connected to the port
   # TYPE p4_switch_qsfp_present gauge
@@ -98,22 +98,22 @@ Example output
   p4_switch_qsfp_present{port="32"} 0.0
   # HELP p4_switch_qsfp_channel_rx_power RX power on the QSFP channel
   # TYPE p4_switch_qsfp_channel_rx_power gauge
-  p4_switch_qsfp_channel_rx_power{channel="1",port="1"} 0.9918
-  p4_switch_qsfp_channel_rx_power{channel="2",port="1"} 1.0265
-  p4_switch_qsfp_channel_rx_power{channel="3",port="1"} 1.0098
-  p4_switch_qsfp_channel_rx_power{channel="4",port="1"} 1.0159
+  p4_switch_qsfp_channel_rx_power{channel="1",port="1"} 0.9897
+  p4_switch_qsfp_channel_rx_power{channel="2",port="1"} 1.0321000000000002
+  p4_switch_qsfp_channel_rx_power{channel="3",port="1"} 1.0055
+  p4_switch_qsfp_channel_rx_power{channel="4",port="1"} 1.0115
   # HELP p4_switch_qsfp_channel_tx_power TX power on the QSFP channel
   # TYPE p4_switch_qsfp_channel_tx_power gauge
-  p4_switch_qsfp_channel_tx_power{channel="1",port="1"} 0.9254000000000001
-  p4_switch_qsfp_channel_tx_power{channel="2",port="1"} 0.9125
-  p4_switch_qsfp_channel_tx_power{channel="3",port="1"} 0.9247000000000001
-  p4_switch_qsfp_channel_tx_power{channel="4",port="1"} 0.9189
+  p4_switch_qsfp_channel_tx_power{channel="1",port="1"} 0.9309000000000001
+  p4_switch_qsfp_channel_tx_power{channel="2",port="1"} 0.9105
+  p4_switch_qsfp_channel_tx_power{channel="3",port="1"} 0.9272
+  p4_switch_qsfp_channel_tx_power{channel="4",port="1"} 0.9219
   # HELP p4_switch_qsfp_channel_count Number of channels active on the QSFP
   # TYPE p4_switch_qsfp_channel_count gauge
   p4_switch_qsfp_channel_count{port="1"} 4.0
   # HELP p4_switch_qsfp_info QSFP information
   # TYPE p4_switch_qsfp_info gauge
-  p4_switch_qsfp_info{date_code="000000",part_number="0000000000",port="1",revision="1A",serial="0000000000",vendor="Example"} 1.0
+  p4_switch_qsfp_info{date_code="000000",part_number="00000000",port="1",revision="00",serial="0000000000",vendor="Example"} 1.0
   # HELP p4_switch_qsfp_rx_power_alarm_max Maximum RX power on the QSFP channel above which an alarm should be raised
   # TYPE p4_switch_qsfp_rx_power_alarm_max gauge
   p4_switch_qsfp_rx_power_alarm_max{port="1"} 2.1878
@@ -128,7 +128,7 @@ Example output
   p4_switch_qsfp_rx_power_warning_min{port="1"} 0.1259
   # HELP p4_switch_qsfp_temperature_celsius Temperature of the QSFP
   # TYPE p4_switch_qsfp_temperature_celsius gauge
-  p4_switch_qsfp_temperature_celsius{port="1"} 21.8671875
+  p4_switch_qsfp_temperature_celsius{port="1"} 22.8046875
   # HELP p4_switch_qsfp_temperature_alarm_max_celsius Maximum temperature of the QSFP above which an alarm should be raised
   # TYPE p4_switch_qsfp_temperature_alarm_max_celsius gauge
   p4_switch_qsfp_temperature_alarm_max_celsius{port="1"} 75.0
@@ -166,124 +166,63 @@ Example output
   p4_switch_qsfp_voltage_warning_min_volts{port="1"} 3.135
   # HELP p4_switch_port_up Operational status of the port
   # TYPE p4_switch_port_up gauge
-  p4_switch_port_up{port="1/0"} 1.0
-  # HELP p4_switch_port_stats_frames_received_ok_total The total number of frames received without errors on the port
-  # TYPE p4_switch_port_stats_frames_received_ok_total counter
-  p4_switch_port_stats_frames_received_ok_total{port="1/0"} 2.381558e+06
-  # HELP p4_switch_port_stats_frames_received_total The total number of frames received on the port
-  # TYPE p4_switch_port_stats_frames_received_total counter
-  p4_switch_port_stats_frames_received_total{port="1/0"} 2.381558e+06
-  # HELP p4_switch_port_stats_frames_received_nok_total The total number of frames received with errors on the port
-  # TYPE p4_switch_port_stats_frames_received_nok_total counter
-  p4_switch_port_stats_frames_received_nok_total{port="1/0"} 0.0
-  # HELP p4_switch_port_stats_bytes_received_ok_total The total number of bytes received in OK frames on the port
-  # TYPE p4_switch_port_stats_bytes_received_ok_total counter
-  p4_switch_port_stats_bytes_received_ok_total{port="1/0"} 1.67862914e+08
-  # HELP p4_switch_port_stats_bytes_received_total The total number of bytes received on the port
-  # TYPE p4_switch_port_stats_bytes_received_total counter
-  p4_switch_port_stats_bytes_received_total{port="1/0"} 1.67862914e+08
-  # HELP p4_switch_port_stats_frames_received_unicast_total The total number of unicast frames received on the port
-  # TYPE p4_switch_port_stats_frames_received_unicast_total counter
-  p4_switch_port_stats_frames_received_unicast_total{port="1/0"} 9.0
-  # HELP p4_switch_port_stats_frames_received_multicast_total The total number of multicast frames received on the port
-  # TYPE p4_switch_port_stats_frames_received_multicast_total counter
-  p4_switch_port_stats_frames_received_multicast_total{port="1/0"} 2.381549e+06
-  # HELP p4_switch_port_stats_frames_received_broadcast_total The total number of broadcast frames received on the port
-  # TYPE p4_switch_port_stats_frames_received_broadcast_total counter
-  p4_switch_port_stats_frames_received_broadcast_total{port="1/0"} 0.08.0
-  # HELP p4_switch_port_stats_frames_received_length_less_than_64_total The total number of frames with a length of less than 64 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_less_than_64_total counter
-  p4_switch_port_stats_frames_received_length_less_than_64_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_received_length_64_total The total number of frames with a length of exactly 64 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_64_total counter
-  p4_switch_port_stats_frames_received_length_64_total{port="1/0"} 508716.0
-  # HELP p4_switch_port_stats_frames_received_length_65_127_total The total number of frames with a length of 65 to 127 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_65_127_total counter
-  p4_switch_port_stats_frames_received_length_65_127_total{port="1/0"} 1.871844e+06
-  # HELP p4_switch_port_stats_frames_received_length_128_255_total The total number of frames with a length of 128 to 255 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_128_255_total counter
-  p4_switch_port_stats_frames_received_length_128_255_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_received_length_256_511_total The total number of frames with a length of 256 to 511 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_256_511_total counter
-  p4_switch_port_stats_frames_received_length_256_511_total{port="1/0"} 998.00
-  # HELP p4_switch_port_stats_frames_received_length_512_1023_total The total number of frames with a length of 512 to 1023 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_512_1023_total counter
-  p4_switch_port_stats_frames_received_length_512_1023_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_received_length_1024_1518_total The total number of frames with a length of 1024 to 1518 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_1024_1518_total counter
-  p4_switch_port_stats_frames_received_length_1024_1518_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_received_length_1519_2047_total The total number of frames with a length of 1519 to 2047 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_1519_2047_total counter
-  p4_switch_port_stats_frames_received_length_1519_2047_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_received_length_2048_4095_total The total number of frames with a length of 2048 to 4095 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_2048_4095_total counter
-  p4_switch_port_stats_frames_received_length_2048_4095_total{port="1/0"} 0.0
-  # HELP p4_switch_port_stats_frames_received_length_4096_8191_total The total number of frames with a length of 4096 to 8191 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_4096_8191_total counter
-  p4_switch_port_stats_frames_received_length_4096_8191_total{port="1/0"} 0.0
-  # HELP p4_switch_port_stats_frames_received_length_8192_9215_total The total number of frames with a length of 8192 to 9215 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_8192_9215_total counter
-  p4_switch_port_stats_frames_received_length_8192_9215_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_received_length_9216_total The total number of frames with a length of 9216 bytes received on the port
-  # TYPE p4_switch_port_stats_frames_received_length_9216_total counter
-  p4_switch_port_stats_frames_received_length_9216_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_transmitted_ok_total The total number of frames transmitted without errors on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_ok_total counter
-  p4_switch_port_stats_frames_transmitted_ok_total{port="1/0"} 4.465161e+06
-  # HELP p4_switch_port_stats_frames_transmitted_total The total number of frames transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_total counter
-  p4_switch_port_stats_frames_transmitted_total{port="1/0"} 4.465161e+06
-  # HELP p4_switch_port_stats_frames_transmitted_nok_total The total number of frames transmitted with errors on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_nok_total counter
-  p4_switch_port_stats_frames_transmitted_nok_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_bytes_transmitted_ok_total The total number of bytes transmitted without error on the port
-  # TYPE p4_switch_port_stats_bytes_transmitted_ok_total counter
-  p4_switch_port_stats_bytes_transmitted_ok_total{port="1/0"} 1.6638732864e+010
-  # HELP p4_switch_port_stats_bytes_transmitted_total The total number of bytes transmitted on the port
-  # TYPE p4_switch_port_stats_bytes_transmitted_total counter
-  p4_switch_port_stats_bytes_transmitted_total{port="1/0"} 1.6638732864e+010
-  # HELP p4_switch_port_stats_frames_transmitted_unicast_total The total number of unicast frames transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_unicast_total counter
-  p4_switch_port_stats_frames_transmitted_unicast_total{port="1/0"} 2.608128e+06
-  # HELP p4_switch_port_stats_frames_transmitted_multicast_total The total number of multicast frames transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_multicast_total counter
-  p4_switch_port_stats_frames_transmitted_multicast_total{port="1/0"} 1.856655e+06
-  # HELP p4_switch_port_stats_frames_transmitted_broadcast_total The total number of broadcast frames transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_broadcast_total counter
-  p4_switch_port_stats_frames_transmitted_broadcast_total{port="1/0"} 378.0344.0
-  # HELP p4_switch_port_stats_frames_transmitted_length_less_than_64_total The total number of frames with a length of less than 64 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_less_than_64_total counter
-  p4_switch_port_stats_frames_transmitted_length_less_than_64_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_transmitted_length_64_total The total number of frames with a length of exactly 64 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_64_total counter
-  p4_switch_port_stats_frames_transmitted_length_64_total{port="1/0"} 1.857033e+06
-  # HELP p4_switch_port_stats_frames_transmitted_length_65_127_total The total number of frames with a length of 65 to 127 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_65_127_total counter
-  p4_switch_port_stats_frames_transmitted_length_65_127_total{port="1/0"} 0.0
-  # HELP p4_switch_port_stats_frames_transmitted_length_128_255_total The total number of frames with a length of 128 to 255 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_128_255_total counter
-  p4_switch_port_stats_frames_transmitted_length_128_255_total{port="1/0"} 0.0344.0
-  # HELP p4_switch_port_stats_frames_transmitted_length_256_511_total The total number of frames with a length of 256 to 511 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_256_511_total counter
-  p4_switch_port_stats_frames_transmitted_length_256_511_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_transmitted_length_512_1023_total The total number of frames with a length of 512 to 1023 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_512_1023_total counter
-  p4_switch_port_stats_frames_transmitted_length_512_1023_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_transmitted_length_1024_1518_total The total number of frames with a length of 1024 to 1518 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_1024_1518_total counter
-  p4_switch_port_stats_frames_transmitted_length_1024_1518_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_transmitted_length_1519_2047_total The total number of frames with a length of 1519 to 2047 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_1519_2047_total counter
-  p4_switch_port_stats_frames_transmitted_length_1519_2047_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_transmitted_length_2048_4095_total The total number of frames with a length of 2048 to 4095 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_2048_4095_total counter
-  p4_switch_port_stats_frames_transmitted_length_2048_4095_total{port="1/0"} 0.00
-  # HELP p4_switch_port_stats_frames_transmitted_length_4096_8191_total The total number of frames with a length of 4096 to 8191 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_4096_8191_total counter
-  p4_switch_port_stats_frames_transmitted_length_4096_8191_total{port="1/0"} 2.608128e+060
-  # HELP p4_switch_port_stats_frames_transmitted_length_8192_9215_total The total number of frames with a length of 8192 to 9215 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_8192_9215_total counter
-  p4_switch_port_stats_frames_transmitted_length_8192_9215_total{port="1/0"} 0.0
-  # HELP p4_switch_port_stats_frames_transmitted_length_9216_total The total number of frames with a length of 9216 bytes transmitted on the port
-  # TYPE p4_switch_port_stats_frames_transmitted_length_9216_total counter
-  p4_switch_port_stats_frames_transmitted_length_9216_total{port="1/0"} 0.00
+  p4_switch_port_up{channel="0",port="1"} 1.0
+  # HELP p4_switch_port_stats_rx_bytes_total Number of bytes received on the port
+  # TYPE p4_switch_port_stats_rx_bytes_total counter
+  p4_switch_port_stats_rx_bytes_total{channel="0",port="1"} 1.3886922e+09
+  # HELP p4_switch_port_stats_tx_bytes_total Number of bytes received on the port
+  # TYPE p4_switch_port_stats_tx_bytes_total counter
+  p4_switch_port_stats_tx_bytes_total{channel="0",port="1"} 1.28657587776e+011
+  # HELP p4_switch_port_stats_rx_frames_total Number of frames received on the port, grouped by frame length in bytes
+  # TYPE p4_switch_port_stats_rx_frames_total counter
+  p4_switch_port_stats_rx_frames_total{channel="0",length="<64",port="1"} 0.0
+  p4_switch_port_stats_rx_frames_total{channel="0",length="64",port="1"} 4.12202e+06
+  p4_switch_port_stats_rx_frames_total{channel="0",length="65-127",port="1"} 1.5563303e+07
+  p4_switch_port_stats_rx_frames_total{channel="0",length="128-255",port="1"} 0.0
+  p4_switch_port_stats_rx_frames_total{channel="0",length="256-511",port="1"} 8083.0
+  p4_switch_port_stats_rx_frames_total{channel="0",length="512-1023",port="1"} 0.0
+  p4_switch_port_stats_rx_frames_total{channel="0",length="1024-1518",port="1"} 0.0
+  p4_switch_port_stats_rx_frames_total{channel="0",length="1519-2047",port="1"} 0.0
+  p4_switch_port_stats_rx_frames_total{channel="0",length="2048-4095",port="1"} 0.0
+  p4_switch_port_stats_rx_frames_total{channel="0",length="4096-8191",port="1"} 0.0
+  p4_switch_port_stats_rx_frames_total{channel="0",length="8192-9215",port="1"} 0.0
+  p4_switch_port_stats_rx_frames_total{channel="0",length="9216",port="1"} 0.0
+  # HELP p4_switch_port_stats_tx_frames_total Number of frames transmitted on the port, grouped by frame length in bytes
+  # TYPE p4_switch_port_stats_tx_frames_total counter
+  p4_switch_port_stats_tx_frames_total{channel="0",length="<64",port="1"} 0.0
+  p4_switch_port_stats_tx_frames_total{channel="0",length="64",port="1"} 1.5440091e+07
+  p4_switch_port_stats_tx_frames_total{channel="0",length="65-127",port="1"} 0.0
+  p4_switch_port_stats_tx_frames_total{channel="0",length="128-255",port="1"} 13824.0
+  p4_switch_port_stats_tx_frames_total{channel="0",length="256-511",port="1"} 0.0
+  p4_switch_port_stats_tx_frames_total{channel="0",length="512-1023",port="1"} 0.0
+  p4_switch_port_stats_tx_frames_total{channel="0",length="1024-1518",port="1"} 0.0
+  p4_switch_port_stats_tx_frames_total{channel="0",length="1519-2047",port="1"} 0.0
+  p4_switch_port_stats_tx_frames_total{channel="0",length="2048-4095",port="1"} 1152.0
+  p4_switch_port_stats_tx_frames_total{channel="0",length="4096-8191",port="1"} 2.0155392e+07
+  p4_switch_port_stats_tx_frames_total{channel="0",length="8192-9215",port="1"} 0.0
+  p4_switch_port_stats_tx_frames_total{channel="0",length="9216",port="1"} 0.0
+  # HELP p4_switch_port_stats_rx_errors_total The total number of receive errors on the port
+  # TYPE p4_switch_port_stats_rx_errors_total counter
+  p4_switch_port_stats_rx_errors_total{channel="0",port="1"} 0.0
+  # HELP p4_switch_port_stats_tx_errors_total The total number of transmit errors on the port
+  # TYPE p4_switch_port_stats_tx_errors_total counter
+  p4_switch_port_stats_tx_errors_total{channel="0",port="1"} 0.0
+  # HELP p4_switch_port_stats_rx_unicast_frames_total The total number of unicast frames received on the port
+  # TYPE p4_switch_port_stats_rx_unicast_frames_total counter
+  p4_switch_port_stats_rx_unicast_frames_total{channel="0",port="1"} 172.0
+  # HELP p4_switch_port_stats_rx_multicast_frames_total The total number of multicast frames received on the port
+  # TYPE p4_switch_port_stats_rx_multicast_frames_total counter
+  p4_switch_port_stats_rx_multicast_frames_total{channel="0",port="1"} 1.96932e+07
+  # HELP p4_switch_port_stats_rx_broadcast_frames_total The total number of broadcast frames received on the port
+  # TYPE p4_switch_port_stats_rx_broadcast_frames_total counter
+  p4_switch_port_stats_rx_broadcast_frames_total{channel="0",port="1"} 34.0
+  # HELP p4_switch_port_stats_tx_unicast_frames_total The total number of unicast frames transmitted on the port
+  # TYPE p4_switch_port_stats_tx_unicast_frames_total counter
+  p4_switch_port_stats_tx_unicast_frames_total{channel="0",port="1"} 2.0170368e+07
+  # HELP p4_switch_port_stats_tx_multicast_frames_total The total number of multicast frames transmitted on the port
+  # TYPE p4_switch_port_stats_tx_multicast_frames_total counter
+  p4_switch_port_stats_tx_multicast_frames_total{channel="0",port="1"} 1.5439365e+07
+  # HELP p4_switch_port_stats_tx_broadcast_frames_total The total number of broadcast frames transmitted on the port
+  # TYPE p4_switch_port_stats_tx_broadcast_frames_total counter
+  p4_switch_port_stats_tx_broadcast_frames_total{channel="0",port="1"} 726.0
+  
