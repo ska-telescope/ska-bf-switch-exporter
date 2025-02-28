@@ -1,6 +1,6 @@
 """
 Unit tests for the
-:py:class:`ska_p4_switch_collector.collectors.PalRpcCollector`.
+:py:class:`ska_p4_switch_collector.port_collector.PortCollector`.
 
 Note: the expected values in this test match the hard-coded test data
 provided in ``pal_rpc_mock.py``.
@@ -9,7 +9,7 @@ provided in ``pal_rpc_mock.py``.
 import pytest
 from prometheus_client import CollectorRegistry
 
-from ska_p4_switch_exporter.collectors import PalRpcCollector
+from ska_p4_switch_exporter.port_collector import PortCollector
 
 PORTS_UP = [
     (1, 0),
@@ -38,7 +38,7 @@ def register(registry: CollectorRegistry):
     """
     Register the collector with the registry.
     """
-    PalRpcCollector(
+    PortCollector(
         rpc_host="",
         rpc_port=9090,
         registry=registry,

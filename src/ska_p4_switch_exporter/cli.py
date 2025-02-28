@@ -12,7 +12,7 @@ from prometheus_client import start_http_server
 from prometheus_client.core import CollectorRegistry
 from ska_ser_logging import configure_logging
 
-from ska_p4_switch_exporter import release
+from ska_p4_switch_exporter import exporter_info_collector, release
 
 
 @click.command(
@@ -59,7 +59,7 @@ from ska_p4_switch_exporter import release
     default="INFO",
     help="Logging level used to configure the Python logger",
 )
-def run(
+def run(  # pylint: disable=too-many-locals
     sde_lib_path: pathlib.Path,
     rpc_host: str,
     rpc_port: int,
@@ -85,20 +85,30 @@ def run(
     # CLI invocations raise an ImportError, which is annoying when you just
     # want to print help text.
     # pylint: disable-next=import-outside-toplevel
-    from ska_p4_switch_exporter import collectors
+    from ska_p4_switch_exporter import (
+        port_collector,
+        qsfp_collector,
+        system_collector,
+    )
 
     registry = CollectorRegistry()
-    collectors.ExporterInfoCollector(
+    exporter_info_collector.ExporterInfoCollector(
         logger=logger,
         registry=registry,
     )
-    collectors.PlatformManagerRpcCollector(
+    system_collector.SystemCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
         logger=logger,
         registry=registry,
     )
-    collectors.PalRpcCollector(
+    qsfp_collector.QSFPCollector(
+        rpc_host=rpc_host,
+        rpc_port=rpc_port,
+        logger=logger,
+        registry=registry,
+    )
+    port_collector.PortCollector(
         rpc_host=rpc_host,
         rpc_port=rpc_port,
         logger=logger,
